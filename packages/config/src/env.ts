@@ -5,6 +5,7 @@ export const env = createEnv({
   server: {
     //WARN: these need to be added to prodution environment
     PAYLOAD_DATABASE_URI: z.string().min(1),
+    PAYLOAD_DATABASE_DEV_URI: z.string().min(1),
     PAYLOAD_DATABASE_BACKUP_URI: z.string().min(1),
     PAYLOAD_SECRET: z.string().min(1),
     NEXT_INTERNAL_URL: z.string().min(1).default("http://localhost:3000"),
