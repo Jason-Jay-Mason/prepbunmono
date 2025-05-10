@@ -1,0 +1,11 @@
+{
+  "name": "proxy",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Nothing to build'",
+    "dev": "docker build -t proxy-dev . && docker run -d --rm --network host --name proxy-dev proxy-dev",
+    "dev:stop": "docker stop proxy-dev || true",
+    "deploy": "docker build -t proxy-prod . && docker push proxy-prod"
+  }
+}
