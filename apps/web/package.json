@@ -4,27 +4,45 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "scaffold": "bun run ./src/lib/payload/cli/scaffoldBlock.ts",
     "dev": "next dev --turbopack --port 3000",
     "build": "next build",
+    "payload": "payload",
     "start": "next start",
-    "lint": "next lint --max-warnings 0",
-    "check-types": "tsc --noEmit"
+    "generate:importmap": "payload generate:importmap",
+    "generate:schema": "payload generate:db-schema",
+    "generate:types": "payload generate:types",
+    "generate:all": "bun generate:schema && bun generate:types && bun generate:importmap"
   },
   "dependencies": {
+    "@payloadcms/db-postgres": "^3.37.0",
+    "@payloadcms/live-preview-react": "^3.37.0",
+    "@payloadcms/next": "^3.37.0",
+    "@payloadcms/payload-cloud": "^3.37.0",
+    "@payloadcms/richtext-lexical": "^3.37.0",
+    "@t3-oss/env-nextjs": "^0.13.4",
     "@tailwindcss/postcss": "^4.1.6",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "graphql": "^16.8.1",
+    "jotai": "^2.12.4",
     "next": "^15.3.0",
+    "payload": "^3.37.0",
     "postcss": "^8.5.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.6"
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss": "^4.1.6",
+    "zod": "^3.24.4"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.1",
-    "eslint": "^9.26.0",
     "typescript": "5.8.2"
   }
 }
