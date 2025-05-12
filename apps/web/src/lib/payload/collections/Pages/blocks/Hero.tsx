@@ -17,8 +17,23 @@ export const Hero: Block = {
       type: "text",
       required: false,
     },
-    sectionField,
+    {
+      name: "bgVideoSrc",
+      label: "Background Video Source",
+      type: "text",
+      required: true,
+    },
     newCtaField("primaryCta", "Primary Call to Action"),
-    newCtaField("secondaryCta", "Secondary Call to Action"),
+    {
+      name: "salesVideoCtaInnerText",
+      label: "Sales Video CTA Inner Text",
+      type: "text",
+    },
+    {
+      name: "salesVideoSrc",
+      label: "Video Source",
+      type: "text",
+    },
+    sectionField,
   ],
 };

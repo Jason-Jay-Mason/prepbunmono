@@ -207,18 +207,17 @@ export interface Page {
 export interface HeroBlock {
   headline: string;
   blurb?: string | null;
-  section: {
-    sectionId: string;
-    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
-    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
-  };
+  bgVideoSrc: string;
   primaryCta: {
     href: string;
     innerText: string;
   };
-  secondaryCta: {
-    href: string;
-    innerText: string;
+  salesVideoCtaInnerText?: string | null;
+  salesVideoSrc?: string | null;
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
   };
   id?: string | null;
   blockName?: string | null;
@@ -379,24 +378,21 @@ export interface PagesSelect<T extends boolean = true> {
 export interface HeroBlockSelect<T extends boolean = true> {
   headline?: T;
   blurb?: T;
-  section?:
-    | T
-    | {
-        sectionId?: T;
-        paddingTop?: T;
-        paddingBottom?: T;
-      };
+  bgVideoSrc?: T;
   primaryCta?:
     | T
     | {
         href?: T;
         innerText?: T;
       };
-  secondaryCta?:
+  salesVideoCtaInnerText?: T;
+  salesVideoSrc?: T;
+  section?:
     | T
     | {
-        href?: T;
-        innerText?: T;
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
       };
   id?: T;
   blockName?: T;

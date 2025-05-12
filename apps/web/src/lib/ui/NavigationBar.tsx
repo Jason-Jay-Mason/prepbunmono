@@ -67,7 +67,7 @@ function NavigationBar(p: {
         className={cn(
           baseNavBarStyles,
           hidden ? "-translate-y-full transform" : "translate-y-0",
-          absolute ? "lg:-mb-[60px]" : "mb-0",
+          absolute ? "lg:-mb-[62px]" : "mb-0",
 
           sticky
             ? "border-border bg-background border-b text-foreground fill-foreground"
