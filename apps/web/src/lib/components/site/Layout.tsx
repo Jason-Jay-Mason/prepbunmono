@@ -149,7 +149,13 @@ export const SiteLayout: React.FC<{
             {nav.links.map((l, i) => {
               switch (l.blockType) {
                 case "SiteNavImageMenu":
-                  return <NavigationBarModelAccordian block={l} num={i} />;
+                  return (
+                    <NavigationBarModelAccordian
+                      key={`${l.id}-${i}`}
+                      block={l}
+                      num={i}
+                    />
+                  );
                 case "SiteNavLink":
                   return (
                     <NavigationBarModelLink

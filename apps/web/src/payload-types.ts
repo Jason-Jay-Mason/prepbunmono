@@ -162,6 +162,7 @@ export interface Media {
 export interface Page {
   id: number;
   title: string;
+  absoluteNav?: boolean | null;
   slug?: string | null;
   sections?: HeroBlock[] | null;
   seo: {
@@ -323,6 +324,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  absoluteNav?: T;
   slug?: T;
   sections?:
     | T

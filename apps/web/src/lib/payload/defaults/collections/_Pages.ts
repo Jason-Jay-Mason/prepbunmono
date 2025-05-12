@@ -52,6 +52,11 @@ export function DefaultPageCollection(blocks: Block[]): CollectionConfig {
         required: true,
       },
       {
+        name: "absoluteNav",
+        type: "checkbox",
+        label: "Absolute Nav",
+      },
+      {
         name: "slug",
         type: "text",
         admin: {

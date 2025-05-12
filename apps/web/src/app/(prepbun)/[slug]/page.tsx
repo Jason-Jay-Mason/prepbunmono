@@ -8,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import { isSimpleWildCardMatch } from "@/lib/utils";
 import { MessagePage } from "@/lib/components/site/MessagePage";
 import { PayloadPage } from "@/lib/components/site/PayloadPage";
+import { NavControl } from "@/lib/components/site/NavControl";
 
 export const dynamic = "force-static";
 export default async function Page(p: any) {
@@ -51,7 +52,12 @@ export default async function Page(p: any) {
 
   const page = docs[0];
 
-  return <PayloadPage page={page} isDraft={draft.isEnabled} />;
+  return (
+    <>
+      <NavControl isAbsolute={page.absoluteNav}></NavControl>
+      <PayloadPage page={page} isDraft={draft.isEnabled} />
+    </>
+  );
 }
 
 export const generateMetadata = async ({ params }: any) => {
