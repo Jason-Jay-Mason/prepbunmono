@@ -10,6 +10,7 @@ import { env } from "./config/env";
 import { Users } from "./lib/payload/collections/Users";
 import { Pages } from "./lib/payload/collections/Pages";
 import { Media } from "./lib/payload/collections/Media";
+import { SiteNav } from "./lib/payload/globals/siteNav";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -24,6 +25,7 @@ export default buildConfig({
   collections: [Users, Media, Pages],
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET || "",
+  globals: [SiteNav],
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },

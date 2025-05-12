@@ -86,8 +86,12 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    sitenav: Sitenav;
+  };
+  globalsSelect: {
+    sitenav: SitenavSelect<false> | SitenavSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -426,6 +430,99 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sitenav".
+ */
+export interface Sitenav {
+  id: number;
+  links: (SiteNavLinkBlock | SiteNavImageMenuBlock)[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SiteNavLinkBlock".
+ */
+export interface SiteNavLinkBlock {
+  link: {
+    href: string;
+    innerText: string;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'SiteNavLink';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SiteNavImageMenuBlock".
+ */
+export interface SiteNavImageMenuBlock {
+  label?: string | null;
+  headline?: string | null;
+  blurb?: string | null;
+  image: Media;
+  links?:
+    | {
+        title?: string | null;
+        blurb?: string | null;
+        href?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'SiteNavImageMenu';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sitenav_select".
+ */
+export interface SitenavSelect<T extends boolean = true> {
+  links?:
+    | T
+    | {
+        SiteNavLink?: T | SiteNavLinkBlockSelect<T>;
+        SiteNavImageMenu?: T | SiteNavImageMenuBlockSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SiteNavLinkBlock_select".
+ */
+export interface SiteNavLinkBlockSelect<T extends boolean = true> {
+  link?:
+    | T
+    | {
+        href?: T;
+        innerText?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SiteNavImageMenuBlock_select".
+ */
+export interface SiteNavImageMenuBlockSelect<T extends boolean = true> {
+  label?: T;
+  headline?: T;
+  blurb?: T;
+  image?: T;
+  links?:
+    | T
+    | {
+        title?: T;
+        blurb?: T;
+        href?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
