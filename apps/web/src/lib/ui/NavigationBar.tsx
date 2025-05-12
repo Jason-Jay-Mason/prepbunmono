@@ -54,8 +54,15 @@ function NavigationBar(p: {
     <>
       <div
         ref={spacerRef}
-        className={cn("hidden h-5 lg:block bg-foreground", p.spacerClassName)}
-      ></div>
+        className={cn(
+          "hidden h-5 lg:flex justify-center items-center bg-foreground ",
+          p.spacerClassName,
+        )}
+      >
+        <p className="text-background text-sm">
+          We are offering summer camps, view our schedule to learn more.
+        </p>
+      </div>
       <header
         className={cn(
           baseNavBarStyles,
