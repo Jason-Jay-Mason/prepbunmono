@@ -164,7 +164,7 @@ export interface Page {
   title: string;
   absoluteNav?: boolean | null;
   slug?: string | null;
-  sections?: (HeroBlock | LogoTrackBlock | FeaturedVideoBlock | IconGridBlock)[] | null;
+  sections?: (HeroBlock | LogoTrackBlock | FeaturedVideoBlock | IconGridBlock | LargeVideoCtaBlock)[] | null;
   seo: {
     title?: string | null;
     description?: string | null;
@@ -287,6 +287,27 @@ export interface IconGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LargeVideoCtaBlock".
+ */
+export interface LargeVideoCtaBlock {
+  headline?: string | null;
+  blurb?: string | null;
+  bgVideoSource?: string | null;
+  cta: {
+    href: string;
+    innerText: string;
+  };
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'LargeVideoCta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -394,6 +415,7 @@ export interface PagesSelect<T extends boolean = true> {
         LogoTrack?: T | LogoTrackBlockSelect<T>;
         FeaturedVideo?: T | FeaturedVideoBlockSelect<T>;
         IconGrid?: T | IconGridBlockSelect<T>;
+        LargeVideoCta?: T | LargeVideoCtaBlockSelect<T>;
       };
   seo?:
     | T
@@ -518,6 +540,30 @@ export interface IconGridBlockSelect<T extends boolean = true> {
         headline?: T;
         blurb?: T;
         id?: T;
+      };
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LargeVideoCtaBlock_select".
+ */
+export interface LargeVideoCtaBlockSelect<T extends boolean = true> {
+  headline?: T;
+  blurb?: T;
+  bgVideoSource?: T;
+  cta?:
+    | T
+    | {
+        href?: T;
+        innerText?: T;
       };
   section?:
     | T
