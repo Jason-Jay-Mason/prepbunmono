@@ -164,7 +164,7 @@ export interface Page {
   title: string;
   absoluteNav?: boolean | null;
   slug?: string | null;
-  sections?: HeroBlock[] | null;
+  sections?: (HeroBlock | LogoTrackBlock)[] | null;
   seo: {
     title?: string | null;
     description?: string | null;
@@ -222,6 +222,27 @@ export interface HeroBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'Hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoTrackBlock".
+ */
+export interface LogoTrackBlock {
+  blurb?: string | null;
+  logos?:
+    | {
+        src: Media;
+        id?: string | null;
+      }[]
+    | null;
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'LogoTrack';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -329,6 +350,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         Hero?: T | HeroBlockSelect<T>;
+        LogoTrack?: T | LogoTrackBlockSelect<T>;
       };
   seo?:
     | T
@@ -387,6 +409,28 @@ export interface HeroBlockSelect<T extends boolean = true> {
       };
   salesVideoCtaInnerText?: T;
   salesVideoSrc?: T;
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LogoTrackBlock_select".
+ */
+export interface LogoTrackBlockSelect<T extends boolean = true> {
+  blurb?: T;
+  logos?:
+    | T
+    | {
+        src?: T;
+        id?: T;
+      };
   section?:
     | T
     | {

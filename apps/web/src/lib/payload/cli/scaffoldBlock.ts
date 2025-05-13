@@ -41,10 +41,10 @@ export const ${name}: Block = {
  * Creates a React component file for the section
  */
 function createComponentFile(name: string): void {
-  const filePath = `./src/lib/components/blocks/${name}.tsx`;
+  const filePath = `./src/lib/components/site/blocks/sections/${name}.tsx`;
 
   const content = `import { ${name}Block } from "@/payload-types"
-import { Section } from "@/lib/ui/Section"
+import { Section } from "@/lib/components/site/Section"
 
 export const ${name}Section: React.FC<${name}Block> = (p) => {
   return (
@@ -70,7 +70,6 @@ function updatePagesCollectionFile(name: string): void {
   }
   let content = readFileSync(filePath, "utf8");
   let lines = content.split("\n");
-
   // Find where to add the import statement
   let lastImportIndex = -1;
   for (let i = 0; i < lines.length; i++) {
@@ -87,10 +86,8 @@ function updatePagesCollectionFile(name: string): void {
     console.error(`Error: Cannot find import statements in ${filePath}`);
     process.exit(1);
   }
-
   // Create the new import statement
-  const importStatement = `import { ${name} } from "./blocks/${name}"`;
-
+  const importStatement = `import { ${name} } from "./blocks/sections/${name}"`;
   // Add import after the last import or the comment marker
   lines.splice(lastImportIndex + 1, 0, importStatement);
 
@@ -102,7 +99,6 @@ function updatePagesCollectionFile(name: string): void {
       break;
     }
   }
-
   if (arrayStartIndex === -1) {
     console.error(`Error: Cannot find Pages export in ${filePath}`);
     process.exit(1);
@@ -112,41 +108,19 @@ function updatePagesCollectionFile(name: string): void {
   let arrayEndIndex = -1;
   let bracketCount = 0;
 
-  // Count the opening bracket in the line with "export const Pages"
-  bracketCount = (lines[arrayStartIndex].match(/\[/g) || []).length;
-
-  // If we didn't find an opening bracket on the export line, look in subsequent lines
-  let i = arrayStartIndex;
-  if (bracketCount === 0) {
-    while (i < lines.length) {
-      if (lines[i].includes("[")) {
-        bracketCount = 1;
-        break;
-      }
-      i++;
-    }
-    if (bracketCount === 0) {
-      console.error(
-        `Error: Cannot find opening bracket for Pages array in ${filePath}`,
-      );
-      process.exit(1);
-    }
-  }
-
-  // Now search for the closing bracket
-  while (i < lines.length) {
+  // Start from the array start line and track bracket balance
+  for (let i = arrayStartIndex; i < lines.length; i++) {
     // Count brackets in this line
     const openBrackets = (lines[i].match(/\[/g) || []).length;
     const closeBrackets = (lines[i].match(/\]/g) || []).length;
 
     bracketCount += openBrackets - closeBrackets;
 
-    if (bracketCount === 0) {
+    if (bracketCount === 0 && openBrackets + closeBrackets > 0) {
       // We've found the matching closing bracket
       arrayEndIndex = i;
       break;
     }
-    i++;
   }
 
   if (arrayEndIndex === -1) {
@@ -156,20 +130,20 @@ function updatePagesCollectionFile(name: string): void {
     process.exit(1);
   }
 
-  // Insert the new block before the closing bracket
-  // Look for the last element before the closing bracket
-  let insertLineIndex = arrayEndIndex;
-
-  // Find the last non-empty line before the closing bracket
-  for (let j = arrayEndIndex - 1; j > arrayStartIndex; j--) {
-    if (lines[j].trim() !== "") {
-      insertLineIndex = j + 1;
-      break;
-    }
+  // Insert the new block right before the closing bracket
+  // If the line with the closing bracket has content before it, insert on a new line
+  if (lines[arrayEndIndex].trim() !== "]);") {
+    // Extract the part of the line before the closing bracket
+    const beforeBracket = lines[arrayEndIndex].split("]")[0];
+    // Update the line without the closing bracket
+    lines[arrayEndIndex] = beforeBracket;
+    // Add the new block and closing bracket on the next lines
+    lines.splice(arrayEndIndex + 1, 0, `  ${name},`);
+    lines.splice(arrayEndIndex + 2, 0, "]);");
+  } else {
+    // If the closing bracket is on its own line, insert before it
+    lines.splice(arrayEndIndex, 0, `  ${name},`);
   }
-
-  // Insert the new block with a trailing comma
-  lines.splice(insertLineIndex, 0, `  ${name},`);
 
   // Write the updated content back to the file
   content = lines.join("\n");
@@ -181,7 +155,7 @@ function updatePagesCollectionFile(name: string): void {
  * Updates the PageSections.tsx file to include the new section
  */
 export function updatePageSectionsFile(name: string): void {
-  const filePath = "./src/lib/components/PageSections.tsx";
+  const filePath = "./src/lib/components/site/PageSections.tsx";
 
   if (!existsSync(filePath)) {
     console.error(`Error: ${filePath} does not exist`);

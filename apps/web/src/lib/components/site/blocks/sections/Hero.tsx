@@ -5,7 +5,7 @@ import { HeroBlock } from "@/payload-types";
 import { videoSrcAtom, videoVisibleAtom } from "@/lib/ui/VideoOverlat";
 import { useSetAtom } from "jotai";
 import { Button } from "@/lib/ui/shadcn/button";
-import { Play, PlayIcon } from "lucide-react";
+import { PlayIcon } from "lucide-react";
 
 export const HeroSection: React.FC<HeroBlock> = (p) => {
   const setVideoVis = useSetAtom(videoVisibleAtom);

@@ -1,5 +1,6 @@
 import { Page } from "@/payload-types";
 import { HeroSection } from "./blocks/sections/Hero";
+import { LogoTrackSection } from "./blocks/sections/LogoTrack";
 
 export const PageSecitons: React.FC<Page> = (p) => (
   <>
@@ -7,6 +8,8 @@ export const PageSecitons: React.FC<Page> = (p) => (
       p.sections.map((s, i) => {
         const key = `${i}-${s.blockName}`;
         switch (s.blockType) {
+          case "LogoTrack":
+            return <LogoTrackSection {...s} key={key} />;
           case "Hero":
             return <HeroSection {...s} key={key} />;
         }
