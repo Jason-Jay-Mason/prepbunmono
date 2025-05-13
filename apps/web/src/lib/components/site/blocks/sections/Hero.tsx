@@ -1,9 +1,11 @@
-import React from "react";
+"use client";
+
 import { Section } from "../../Section";
 import { HeroBlock } from "@/payload-types";
 import { videoSrcAtom, videoVisibleAtom } from "@/lib/ui/VideoOverlat";
 import { useSetAtom } from "jotai";
 import { Button } from "@/lib/ui/shadcn/button";
+import { Play, PlayIcon } from "lucide-react";
 
 export const HeroSection: React.FC<HeroBlock> = (p) => {
   const setVideoVis = useSetAtom(videoVisibleAtom);
@@ -15,10 +17,10 @@ export const HeroSection: React.FC<HeroBlock> = (p) => {
   return (
     <Section
       section={p.section}
-      className="relative h-[100vw] lg:min-h-[700px] lg:h-[80vh] w-full px-0 py-0"
+      className="relative bg-red-100 h-full py-10 sm:py-0 sm:h-[100vw] min-h-max lg:min-h-[700px] lg:h-[80vh] w-full px-0 "
     >
-      <div className="absolute w-full h-full z-20 flex justify-center">
-        <div className="w-full px-7 max-w-[1536px] my-5 lg:my-50 flex flex-col justify-center items-center lg:items-start lg:justify-end gap-5">
+      <div className="relative sm:absolute w-full h-full z-20 flex justify-center">
+        <div className="w-full px-4 md:px-7 max-w-[1536px] my-5 lg:my-50 flex flex-col justify-center items-center lg:items-start lg:justify-end gap-5">
           <div className="flex flex-col justify-center lg:items-start items-center gap-5 md:gap-6">
             <h1
               className="text-white text-center lg:text-left text-4xl font-extrabold md:text-6xl lg:text-7xl"
@@ -29,33 +31,39 @@ export const HeroSection: React.FC<HeroBlock> = (p) => {
             </h2>
             <div
               id="ctas"
-              className="flex gap-3 justify-center items-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-3 justify-center items-center lg:justify-start w-full"
             >
-              <Button size="lg" className="text-foreground bg-background">
+              <Button
+                size="lg"
+                className="text-foreground bg-background hover:bg-white/90 hover:text-primary w-[80%] sm:w-max"
+              >
                 {p.primaryCta.innerText}
               </Button>
               <Button
                 size="lg"
-                variant="ghost"
-                className="text-foreground bg-background"
+                variant="outline"
+                className="text-white border-background hover:text-white hover:bg-white/10 w-[80%] sm:w-max"
+                onClick={handleVideoVis}
               >
+                <PlayIcon></PlayIcon>
                 {p.salesVideoCtaInnerText}
               </Button>
             </div>
           </div>
         </div>
       </div>
-      <div className="absolute w-full h-full z-10 bg-[radial-gradient(circle,_rgba(0,0,0,0)_0%,_rgba(0,0,0,0.5)_100%)]"></div>
-      <div className="absolute w-full h-full z-10 bg-gradient-to-tr from-black/90 to-transparent"></div>
+      <div className="absolute top-0 w-full h-full z-10 bg-[radial-gradient(circle,_rgba(0,0,0,0)_0%,_rgba(0,0,0,0.5)_100%)]"></div>
+      <div className="absolute top-0 w-full h-full z-10 bg-gradient-to-tr from-black/90 to-transparent"></div>
       <video
-        src={p.bgVideoSrc}
-        className="absolute h-full w-full object-cover z-0"
+        className="absolute h-full w-full object-cover z-0 top-0"
         loop
-        autoPlay={true}
+        autoPlay
         muted
         playsInline
         controls={false}
-      ></video>
+      >
+        <source src={p.bgVideoSrc} type="video/mp4" />
+      </video>
     </Section>
   );
 };

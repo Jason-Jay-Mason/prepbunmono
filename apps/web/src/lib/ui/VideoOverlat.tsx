@@ -9,7 +9,7 @@ export const videoVisibleAtom = atom<boolean>(false);
 export const videoSrcAtom = atom<string>("");
 
 const baseVideoContainerClasses =
-  "border-border aspect-video w-full md:max-w-[80%] lg:max-w-7xl overflow-clip rounded-4xl border-6 transition-all animate-fade-in";
+  "border-border aspect-video w-full md:max-w-[80%] lg:max-w-7xl overflow-clip rounded-3xl transition-all animate-fade-in";
 
 export const VideoOverlay = React.forwardRef<
   HTMLDivElement,

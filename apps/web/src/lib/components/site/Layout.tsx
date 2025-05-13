@@ -35,6 +35,7 @@ import {
   Accordion,
   AccordionContent,
 } from "@/lib/ui/shadcn/accordion";
+import { CalendarPlus, LogIn, Pointer } from "lucide-react";
 
 const linkstyles =
   "text-md px-4 py-5 md:text-base 2xl:text-md bg-transparent focus:bg-card hover:bg-muted group-hover/nav:text-foreground";
@@ -99,6 +100,20 @@ export const SiteLayout: React.FC<{
           </NavigationBarLeft>
 
           <NavigationBarDesktopLinks>
+            <Link href="https://meetings-na2.hubspot.com/thao-bui">
+              <Button
+                size="sm"
+                className={cn(
+                  absolute
+                    ? "border-background text-foreground bg-background group-hover/nav:text-background group-hover/nav:bg-foreground"
+                    : "group-hover/nav:text-foreground",
+                  sticky && "bg-foreground text-background",
+                )}
+              >
+                <CalendarPlus></CalendarPlus>
+                Free Session
+              </Button>
+            </Link>
             <Link href="/login" id="primary-cta-nav">
               <Button
                 size="sm"
@@ -111,20 +126,6 @@ export const SiteLayout: React.FC<{
                 )}
               >
                 Log In
-              </Button>
-            </Link>
-
-            <Link href="https://meetings-na2.hubspot.com/thao-bui">
-              <Button
-                size="sm"
-                className={cn(
-                  absolute
-                    ? "border-background text-foreground bg-background group-hover/nav:text-background group-hover/nav:bg-foreground"
-                    : "group-hover/nav:text-foreground",
-                  sticky && "bg-foreground text-background",
-                )}
-              >
-                Free Session
               </Button>
             </Link>
 
