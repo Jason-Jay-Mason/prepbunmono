@@ -17,13 +17,13 @@ export const HeroSection: React.FC<HeroBlock> = (p) => {
   return (
     <Section
       section={p.section}
-      className="relative bg-red-100 h-full py-10 sm:py-0 sm:h-[100vw] min-h-max lg:min-h-[700px] lg:h-[80vh] w-full px-0 "
+      className="relative bg-red-100 h-full py-10 sm:py-0 sm:h-[100vw] min-h-max lg:min-h-[800px] lg:h-[80vh] w-full px-0 "
     >
       <div className="relative sm:absolute w-full h-full z-20 flex justify-center">
-        <div className="w-full px-4 md:px-7 max-w-[1536px] my-5 lg:my-50 flex flex-col justify-center items-center lg:items-start lg:justify-end gap-5">
+        <div className="w-full px-4 md:px-7 max-w-[1536px] my-5 lg:my-20 2xl:my-30 flex flex-col justify-center items-center lg:items-start lg:justify-end gap-5">
           <div className="flex flex-col justify-center lg:items-start items-center gap-5 md:gap-6">
             <h1
-              className="text-white text-center lg:text-left text-4xl font-extrabold md:text-6xl lg:text-7xl"
+              className="text-white text-center lg:text-left text-4xl font-extrabold md:text-5xl lg:text-5xl 2xl:text-6xl"
               dangerouslySetInnerHTML={{ __html: p.headline }}
             ></h1>
             <h2 className="text-white text-md text-center lg:text-left md:text-xl max-w-[800px]">

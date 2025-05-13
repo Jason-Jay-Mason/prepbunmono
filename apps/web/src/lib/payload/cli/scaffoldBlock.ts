@@ -87,7 +87,7 @@ function updatePagesCollectionFile(name: string): void {
     process.exit(1);
   }
   // Create the new import statement
-  const importStatement = `import { ${name} } from "./blocks/sections/${name}"`;
+  const importStatement = `import { ${name} } from "./blocks/${name}"`;
   // Add import after the last import or the comment marker
   lines.splice(lastImportIndex + 1, 0, importStatement);
 
@@ -167,7 +167,7 @@ export function updatePageSectionsFile(name: string): void {
 
   // STEP 1: Add the import statement
   // Create the new import statement
-  const newImportStatement = `import { ${name}Section } from './blocks/${name}'`;
+  const newImportStatement = `import { ${name}Section } from './blocks/sections/${name}'`;
 
   // Find all import statements
   let lastImportIndex = -1;

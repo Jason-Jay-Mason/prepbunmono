@@ -164,7 +164,7 @@ export interface Page {
   title: string;
   absoluteNav?: boolean | null;
   slug?: string | null;
-  sections?: (HeroBlock | LogoTrackBlock)[] | null;
+  sections?: (HeroBlock | LogoTrackBlock | FeaturedVideoBlock)[] | null;
   seo: {
     title?: string | null;
     description?: string | null;
@@ -243,6 +243,25 @@ export interface LogoTrackBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'LogoTrack';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedVideoBlock".
+ */
+export interface FeaturedVideoBlock {
+  logo?: Media;
+  headline?: string | null;
+  blurb?: string | null;
+  videoSrc?: string | null;
+  videoPreviewSrc?: string | null;
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'FeaturedVideo';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -351,6 +370,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         Hero?: T | HeroBlockSelect<T>;
         LogoTrack?: T | LogoTrackBlockSelect<T>;
+        FeaturedVideo?: T | FeaturedVideoBlockSelect<T>;
       };
   seo?:
     | T
@@ -431,6 +451,26 @@ export interface LogoTrackBlockSelect<T extends boolean = true> {
         src?: T;
         id?: T;
       };
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedVideoBlock_select".
+ */
+export interface FeaturedVideoBlockSelect<T extends boolean = true> {
+  logo?: T;
+  headline?: T;
+  blurb?: T;
+  videoSrc?: T;
+  videoPreviewSrc?: T;
   section?:
     | T
     | {

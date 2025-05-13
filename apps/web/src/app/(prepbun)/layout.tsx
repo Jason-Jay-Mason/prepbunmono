@@ -16,7 +16,7 @@ const Layout: React.FC<any> = async ({ children }) => {
       <body className="relative">
         <VideoOverlay />
         <SiteLayout nav={sitenav}>
-          <main className="z-10 min-h-[75dvh]">{children}</main>
+          <main className="z-10 min-h-[75dvh] bg-background">{children}</main>
         </SiteLayout>
       </body>
     </html>
