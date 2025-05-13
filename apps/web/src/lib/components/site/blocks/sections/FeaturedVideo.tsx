@@ -1,3 +1,4 @@
+"use client";
 import { FeaturedVideoBlock } from "@/payload-types";
 import { Section } from "@/lib/components/site/Section";
 import { useSetAtom } from "jotai";
