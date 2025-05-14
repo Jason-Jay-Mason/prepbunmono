@@ -1,22 +1,15 @@
 import { Block } from "payload";
-import { newImgField, sectionField } from "@/lib/payload/fields";
+import {
+  newImgField,
+  sectionField,
+  standardHeadline,
+} from "@/lib/payload/fields";
 
 export const IconGrid: Block = {
   slug: "IconGrid",
   interfaceName: "IconGridBlock",
   fields: [
-    {
-      name: "subHeadline",
-      label: "Sub Headline",
-      type: "text",
-      required: true,
-    },
-    {
-      name: "headline",
-      label: "Headline",
-      type: "text",
-      required: true,
-    },
+    standardHeadline,
     {
       name: "gridCells",
       label: "Grid Cells",

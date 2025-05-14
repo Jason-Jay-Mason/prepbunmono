@@ -4,6 +4,7 @@ import { LogoTrack } from "./blocks/LogoTrack";
 import { FeaturedVideo } from "./blocks/FeaturedVideo";
 import { IconGrid } from "./blocks/IconGrid"
 import { LargeVideoCta } from "./blocks/LargeVideoCta"
+import { ReviewSlider } from "./blocks/ReviewSlider"
 
 export const Pages = DefaultPageCollection([
   //Add Blocks Here,
@@ -12,4 +13,5 @@ export const Pages = DefaultPageCollection([
   FeaturedVideo,
   IconGrid,
   LargeVideoCta,
+  ReviewSlider,
 ]);

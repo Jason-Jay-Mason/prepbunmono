@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "scaffold": "bun run ./src/lib/payload/cli/scaffoldBlock.ts",
+    "scaffold": "bun --bun ./src/lib/payload/cli/scaffoldBlock.ts",
     "dev": "next dev --turbopack --port 3000",
     "build": "next build",
     "payload": "payload",

@@ -164,7 +164,9 @@ export interface Page {
   title: string;
   absoluteNav?: boolean | null;
   slug?: string | null;
-  sections?: (HeroBlock | LogoTrackBlock | FeaturedVideoBlock | IconGridBlock | LargeVideoCtaBlock)[] | null;
+  sections?:
+    | (HeroBlock | LogoTrackBlock | FeaturedVideoBlock | IconGridBlock | LargeVideoCtaBlock | ReviewSliderBlock)[]
+    | null;
   seo: {
     title?: string | null;
     description?: string | null;
@@ -268,8 +270,10 @@ export interface FeaturedVideoBlock {
  * via the `definition` "IconGridBlock".
  */
 export interface IconGridBlock {
-  subHeadline: string;
-  headline: string;
+  standardHeadline: {
+    subHeadline: string;
+    headline: string;
+  };
   gridCells: {
     icon: Media;
     headline: string;
@@ -305,6 +309,50 @@ export interface LargeVideoCtaBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'LargeVideoCta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReviewSliderBlock".
+ */
+export interface ReviewSliderBlock {
+  standardHeadline: {
+    subHeadline: string;
+    headline: string;
+  };
+  videoSrc?: string | null;
+  videoPreviewSrc?: string | null;
+  reviews?:
+    | {
+        review: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        firstName: string;
+        lastName: string;
+        logo: Media;
+        profile: Media;
+        id?: string | null;
+      }[]
+    | null;
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'ReviewSlider';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -416,6 +464,7 @@ export interface PagesSelect<T extends boolean = true> {
         FeaturedVideo?: T | FeaturedVideoBlockSelect<T>;
         IconGrid?: T | IconGridBlockSelect<T>;
         LargeVideoCta?: T | LargeVideoCtaBlockSelect<T>;
+        ReviewSlider?: T | ReviewSliderBlockSelect<T>;
       };
   seo?:
     | T
@@ -531,8 +580,12 @@ export interface FeaturedVideoBlockSelect<T extends boolean = true> {
  * via the `definition` "IconGridBlock_select".
  */
 export interface IconGridBlockSelect<T extends boolean = true> {
-  subHeadline?: T;
-  headline?: T;
+  standardHeadline?:
+    | T
+    | {
+        subHeadline?: T;
+        headline?: T;
+      };
   gridCells?:
     | T
     | {
@@ -564,6 +617,39 @@ export interface LargeVideoCtaBlockSelect<T extends boolean = true> {
     | {
         href?: T;
         innerText?: T;
+      };
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReviewSliderBlock_select".
+ */
+export interface ReviewSliderBlockSelect<T extends boolean = true> {
+  standardHeadline?:
+    | T
+    | {
+        subHeadline?: T;
+        headline?: T;
+      };
+  videoSrc?: T;
+  videoPreviewSrc?: T;
+  reviews?:
+    | T
+    | {
+        review?: T;
+        firstName?: T;
+        lastName?: T;
+        logo?: T;
+        profile?: T;
+        id?: T;
       };
   section?:
     | T

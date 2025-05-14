@@ -16,6 +16,7 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  editor: lexicalEditor({}),
   admin: {
     user: Users.slug,
     importMap: {
@@ -23,7 +24,6 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Pages],
-  editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET || "",
   globals: [SiteNav],
   typescript: {

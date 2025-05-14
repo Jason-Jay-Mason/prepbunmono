@@ -20,6 +20,26 @@ export const linkField: Field = {
   ],
 };
 
+export const standardHeadline: Field = {
+  name: "standardHeadline",
+  label: "Standard Headline",
+  type: "group",
+  fields: [
+    {
+      name: "subHeadline",
+      label: "Sub Headline",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "headline",
+      label: "Headline",
+      type: "text",
+      required: true,
+    },
+  ],
+};
+
 export function newImgField(
   name: string,
   label: string = "Image",
