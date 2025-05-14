@@ -173,6 +173,7 @@ export interface Page {
         | LargeVideoCtaBlock
         | ReviewSliderBlock
         | StatGridBlock
+        | PreFooterCtaBlock
       )[]
     | null;
   seo: {
@@ -383,6 +384,27 @@ export interface StatGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PreFooterCtaBlock".
+ */
+export interface PreFooterCtaBlock {
+  headline?: string | null;
+  blurb?: string | null;
+  backgroundImg: Media;
+  cta: {
+    href: string;
+    innerText: string;
+  };
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'PreFooterCta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -493,6 +515,7 @@ export interface PagesSelect<T extends boolean = true> {
         LargeVideoCta?: T | LargeVideoCtaBlockSelect<T>;
         ReviewSlider?: T | ReviewSliderBlockSelect<T>;
         StatGrid?: T | StatGridBlockSelect<T>;
+        PreFooterCta?: T | PreFooterCtaBlockSelect<T>;
       };
   seo?:
     | T
@@ -702,6 +725,30 @@ export interface StatGridBlockSelect<T extends boolean = true> {
         suffix?: T;
         blurb?: T;
         id?: T;
+      };
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PreFooterCtaBlock_select".
+ */
+export interface PreFooterCtaBlockSelect<T extends boolean = true> {
+  headline?: T;
+  blurb?: T;
+  backgroundImg?: T;
+  cta?:
+    | T
+    | {
+        href?: T;
+        innerText?: T;
       };
   section?:
     | T

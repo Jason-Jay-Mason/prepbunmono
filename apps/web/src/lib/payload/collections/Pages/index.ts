@@ -6,6 +6,7 @@ import { IconGrid } from "./blocks/IconGrid"
 import { LargeVideoCta } from "./blocks/LargeVideoCta"
 import { ReviewSlider } from "./blocks/ReviewSlider"
 import { StatGrid } from "./blocks/StatGrid"
+import { PreFooterCta } from "./blocks/PreFooterCta"
 
 export const Pages = DefaultPageCollection([
   //Add Blocks Here,
@@ -16,4 +17,5 @@ export const Pages = DefaultPageCollection([
   LargeVideoCta,
   ReviewSlider,
   StatGrid,
+  PreFooterCta,
 ]);
