@@ -17,16 +17,14 @@ export const PreFooterCtaSection: React.FC<PreFooterCtaBlock> = (p) => {
         </h2>
         <p className="text-white md:text-xl">{p.blurb}</p>
         <Link href={p.cta.href}>
-          <Button size="lg" className="bg-white text-black">
+          <Button size="lg" className="bg-white text-black hover:bg-white/90">
             {p.cta.innerText}
           </Button>
         </Link>
       </div>
 
       <div className="absolute top-0 left-0 z-0 w-full h-full overflow-clip">
-        <div className="absolute w-full h-full bg-gradient-to-t from-primary to-transparent"></div>
-        <div className="absolute top-0 w-full h-full bg-[radial-gradient(circle,_rgba(0,0,0,0)_0%,_rgba(0,0,0,0.6)_100%)] z-10"></div>
-
+        <div className="absolute w-full h-full prefootergradient"></div>
         <Image
           src={p.backgroundImg.url || "/"}
           alt={p.backgroundImg.alt || ""}
@@ -34,7 +32,7 @@ export const PreFooterCtaSection: React.FC<PreFooterCtaBlock> = (p) => {
           sizes="(max-width: 768px) 90vw, (max-width: 1200px) 90vw"
           blurDataURL={blr(p.backgroundImg.url || "/")}
           placeholder="blur"
-          className="absolute h-full w-full object-cover object-center z-[-1]"
+          className="absolute h-full w-full object-cover object-[0%_70%] z-[-1]"
         ></Image>
       </div>
     </Section>

@@ -166,6 +166,18 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .prefootergradient {
+    background: linear-gradient(rgba(23, 23, 23, 0.7) 0%, #171717 100%);
+  }
+
+  .herogradient {
+    background: linear-gradient(-170deg, rgba(23, 23, 23, 0.2) 0%, #171717 90%);
+  }
+
+  .videoctagradient {
+    background: linear-gradient(0deg, rgba(23, 23, 23, 0.2) 0%, rgba(23, 23, 23, 0.8) 90%);
+  }
 }
 
 @layer base {

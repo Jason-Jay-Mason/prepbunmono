@@ -52,8 +52,8 @@ export const HeroSection: React.FC<HeroBlock> = (p) => {
           </div>
         </div>
       </div>
-      <div className="absolute top-0 w-full h-full z-10 bg-[radial-gradient(circle,_rgba(0,0,0,0)_0%,_rgba(0,0,0,0.5)_100%)]"></div>
-      <div className="absolute top-0 w-full h-full z-10 bg-gradient-to-tr from-black/90 to-transparent"></div>
+
+      <div className="absolute w-full h-full herogradient z-10"></div>
       <video
         className="absolute h-full w-full object-cover z-0 top-0"
         loop
@@ -67,3 +67,6 @@ export const HeroSection: React.FC<HeroBlock> = (p) => {
     </Section>
   );
 };
+
+// <div className="absolute top-0 w-full h-full z-10 bg-[radial-gradient(circle,_rgba(0,0,0,0)_0%,_rgba(0,0,0,0.5)_100%)]"></div>
+// <div className="absolute top-0 w-full h-full z-10 bg-gradient-to-tr from-black/90 to-transparent"></div>

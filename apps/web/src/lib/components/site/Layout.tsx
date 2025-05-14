@@ -35,7 +35,16 @@ import {
   Accordion,
   AccordionContent,
 } from "@/lib/ui/shadcn/accordion";
-import { CalendarPlus, LogIn, Pointer } from "lucide-react";
+import {
+  CalendarPlus,
+  Facebook,
+  Instagram,
+  Linkedin,
+  LogIn,
+  Pointer,
+  Twitter,
+  Youtube,
+} from "lucide-react";
 
 const linkstyles =
   "text-md px-4 py-5 md:text-base 2xl:text-md bg-transparent focus:bg-card hover:bg-muted group-hover/nav:text-foreground";
@@ -206,6 +215,7 @@ export const SiteLayout: React.FC<{
         </NavigationBarModel>
       </NavigationBar>
       {children}
+      <Footer {...nav} />
     </>
   );
 };
@@ -322,3 +332,69 @@ const ListItem = React.forwardRef<
     </li>
   );
 });
+
+const Footer: React.FC<Sitenav> = (p) => {
+  return (
+    <footer className="w-full bg-primary py-20 px-5">
+      <div className="w-full max-w-[1560px] mx-auto">
+        <nav className="flex flex-col xl:grid xl:grid-cols-3 xl:items-center xl:justify-center gap-5 items-center md:items-start md:px-10 2xl:px-20">
+          <div className="flex flex-col lg:flex-row gap-5 items-start xl:col-span-2">
+            <Logo className="fill-white w-40" />
+            <div className="flex flex-col md:flex-row md:items-start text-white items-center md:ml-[-10px]">
+              {p.links.map((l, i) => {
+                switch (l.blockType) {
+                  case "SiteNavImageMenu":
+                    return (
+                      <React.Fragment key={`${l.id}-${i}-blob`}>
+                        {l.links &&
+                          l.links.map((li, j) => (
+                            <NavigationBarModelLink
+                              key={`${i}-${j}`}
+                              href={li.href || "/"}
+                              className="text-white border-none hover:bg-white/10 hover:text-white rounded-lg"
+                            >
+                              {li.title}
+                            </NavigationBarModelLink>
+                          ))}
+                      </React.Fragment>
+                    );
+                  case "SiteNavLink":
+                    return (
+                      <NavigationBarModelLink
+                        key={`${l.id}-${i}-${l.id}`}
+                        href={l.link.href}
+                        className="text-white border-none hover:bg-white/10 hover:text-white rounded-lg"
+                      >
+                        {l.link.innerText}
+                      </NavigationBarModelLink>
+                    );
+                }
+              })}
+            </div>
+          </div>
+          <div
+            id="social"
+            className="flex justify-start gap-5 text-white items-center xl:w-full xl:place-content-end"
+          >
+            <Instagram className="w-7 h-7 cursor-pointer" />
+            <Facebook className="w-7 h-7 cursor-pointer" />
+            <Twitter className="w-7 h-7 cursor-pointer" />
+            <Youtube className="w-7 h-7 cursor-pointer" />
+            <Linkedin className="w-7 h-7 cursor-pointer" />
+          </div>
+          <div id="disclaimer" className="xl:col-span-2">
+            <p className="text-sm text-white/60 text-center md:text-left">
+              SAT® trademark is owned by the College Board, which is not
+              affiliated with, and does not endorse, this website.
+            </p>
+          </div>
+          <div className="flex justify-start gap-5 text-white items-center xl:w-full xl:place-content-end">
+            <Button className="text-black hover:text-black bg-white hover:bg-white/90">
+              Sign In
+            </Button>
+          </div>
+        </nav>
+      </div>
+    </footer>
+  );
+};

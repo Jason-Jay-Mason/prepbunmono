@@ -55,11 +55,11 @@ function NavigationBar(p: {
       <div
         ref={spacerRef}
         className={cn(
-          "hidden h-5 lg:flex justify-center items-center bg-foreground ",
+          "hidden h-5 lg:flex justify-center items-center bg-primary",
           p.spacerClassName,
         )}
       >
-        <p className="text-background text-sm">
+        <p className="text-white text-sm">
           We are offering summer camps, view our schedule to learn more.
         </p>
       </div>
