@@ -40,8 +40,6 @@ import {
   Facebook,
   Instagram,
   Linkedin,
-  LogIn,
-  Pointer,
   Twitter,
   Youtube,
 } from "lucide-react";
@@ -126,12 +124,11 @@ export const SiteLayout: React.FC<{
             <Link href="/login" id="primary-cta-nav">
               <Button
                 size="sm"
-                variant="outline"
                 className={cn(
                   absolute
-                    ? "border-background text-background group-hover/nav:text-foreground group-hover/nav:border-foreground"
+                    ? "border-background text-foreground bg-background group-hover/nav:text-background group-hover/nav:bg-foreground"
                     : "group-hover/nav:text-foreground",
-                  sticky && "text-foreground border-foreground",
+                  sticky && "bg-foreground text-background",
                 )}
               >
                 Log In

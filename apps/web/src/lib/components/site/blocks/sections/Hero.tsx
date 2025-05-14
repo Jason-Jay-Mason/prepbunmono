@@ -53,7 +53,7 @@ export const HeroSection: React.FC<HeroBlock> = (p) => {
         </div>
       </div>
 
-      <div className="absolute w-full h-full herogradient z-10"></div>
+      <div className="absolute w-full h-full herogradient z-10 top-0"></div>
       <video
         className="absolute h-full w-full object-cover z-0 top-0"
         loop
