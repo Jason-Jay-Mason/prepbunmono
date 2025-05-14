@@ -90,7 +90,7 @@ export const ReviewSliderSection: React.FC<ReviewSliderBlock> = (p) => {
           {...p.standardHeadline}
           className="text-foreground w-full pb-5 xl:col-span-2"
         />
-        <div className="lg:col-start-1 lg:col-end-2 xl:col-start-1 xl:col-end-3 mb-5 col-span-1 relative overflow-clip rounded-2xl border-border w-full h-auto aspect-square sm:aspect-video lg:aspect-auto xl:min-h-[600px] lg:mb-0">
+        <div className="lg:col-start-1 lg:col-end-2 xl:col-start-1 xl:col-end-3 mb-5 col-span-1 relative overflow-clip rounded-2xl border-border w-full h-auto aspect-square sm:aspect-video lg:aspect-auto xl:min-h-[575px] lg:mb-0">
           <div className="absolute z-10 w-full flex h-full items-center justify-center">
             <Button
               className="bg-white text-black hover:bg-white/90"

@@ -165,7 +165,15 @@ export interface Page {
   absoluteNav?: boolean | null;
   slug?: string | null;
   sections?:
-    | (HeroBlock | LogoTrackBlock | FeaturedVideoBlock | IconGridBlock | LargeVideoCtaBlock | ReviewSliderBlock)[]
+    | (
+        | HeroBlock
+        | LogoTrackBlock
+        | FeaturedVideoBlock
+        | IconGridBlock
+        | LargeVideoCtaBlock
+        | ReviewSliderBlock
+        | StatGridBlock
+      )[]
     | null;
   seo: {
     title?: string | null;
@@ -321,30 +329,28 @@ export interface ReviewSliderBlock {
   };
   videoSrc?: string | null;
   videoPreviewSrc?: string | null;
-  reviews?:
-    | {
-        review: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
+  reviews: {
+    review: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
           [k: string]: unknown;
-        };
-        firstName: string;
-        lastName: string;
-        logo: Media;
-        profile: Media;
-        id?: string | null;
-      }[]
-    | null;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    firstName: string;
+    lastName: string;
+    logo: Media;
+    profile: Media;
+    id?: string | null;
+  }[];
   section: {
     sectionId: string;
     paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
@@ -353,6 +359,27 @@ export interface ReviewSliderBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'ReviewSlider';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatGridBlock".
+ */
+export interface StatGridBlock {
+  stats: {
+    number: number;
+    prefix?: string | null;
+    suffix?: string | null;
+    blurb?: string | null;
+    id?: string | null;
+  }[];
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'StatGrid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -465,6 +492,7 @@ export interface PagesSelect<T extends boolean = true> {
         IconGrid?: T | IconGridBlockSelect<T>;
         LargeVideoCta?: T | LargeVideoCtaBlockSelect<T>;
         ReviewSlider?: T | ReviewSliderBlockSelect<T>;
+        StatGrid?: T | StatGridBlockSelect<T>;
       };
   seo?:
     | T
@@ -649,6 +677,30 @@ export interface ReviewSliderBlockSelect<T extends boolean = true> {
         lastName?: T;
         logo?: T;
         profile?: T;
+        id?: T;
+      };
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatGridBlock_select".
+ */
+export interface StatGridBlockSelect<T extends boolean = true> {
+  stats?:
+    | T
+    | {
+        number?: T;
+        prefix?: T;
+        suffix?: T;
+        blurb?: T;
         id?: T;
       };
   section?:
