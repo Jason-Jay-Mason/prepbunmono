@@ -174,6 +174,7 @@ export interface Page {
         | ReviewSliderBlock
         | StatGridBlock
         | PreFooterCtaBlock
+        | HeroVideoBoxBlock
       )[]
     | null;
   seo: {
@@ -405,6 +406,29 @@ export interface PreFooterCtaBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroVideoBoxBlock".
+ */
+export interface HeroVideoBoxBlock {
+  headline: string;
+  blurb?: string | null;
+  bgVideoSrc: string;
+  primaryCta: {
+    href: string;
+    innerText: string;
+  };
+  salesVideoCtaInnerText?: string | null;
+  salesVideoSrc?: string | null;
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'HeroVideoBox';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -516,6 +540,7 @@ export interface PagesSelect<T extends boolean = true> {
         ReviewSlider?: T | ReviewSliderBlockSelect<T>;
         StatGrid?: T | StatGridBlockSelect<T>;
         PreFooterCta?: T | PreFooterCtaBlockSelect<T>;
+        HeroVideoBox?: T | HeroVideoBoxBlockSelect<T>;
       };
   seo?:
     | T
@@ -750,6 +775,32 @@ export interface PreFooterCtaBlockSelect<T extends boolean = true> {
         href?: T;
         innerText?: T;
       };
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroVideoBoxBlock_select".
+ */
+export interface HeroVideoBoxBlockSelect<T extends boolean = true> {
+  headline?: T;
+  blurb?: T;
+  bgVideoSrc?: T;
+  primaryCta?:
+    | T
+    | {
+        href?: T;
+        innerText?: T;
+      };
+  salesVideoCtaInnerText?: T;
+  salesVideoSrc?: T;
   section?:
     | T
     | {

@@ -7,6 +7,7 @@ import { LargeVideoCta } from "./blocks/LargeVideoCta"
 import { ReviewSlider } from "./blocks/ReviewSlider"
 import { StatGrid } from "./blocks/StatGrid"
 import { PreFooterCta } from "./blocks/PreFooterCta"
+import { HeroVideoBox } from "./blocks/HeroVideoBox"
 
 export const Pages = DefaultPageCollection([
   //Add Blocks Here,
@@ -18,4 +19,5 @@ export const Pages = DefaultPageCollection([
   ReviewSlider,
   StatGrid,
   PreFooterCta,
+  HeroVideoBox,
 ]);

@@ -175,6 +175,10 @@
     background: linear-gradient(-170deg, rgba(23, 23, 23, 0.2) 0%, #171717 90%);
   }
 
+  .boxgradient {
+    background: linear-gradient(-160deg, rgba(23, 23, 23, 0.1) 0%, #171717 90%);
+  }
+
   .videoctagradient {
     background: linear-gradient(0deg, rgba(23, 23, 23, 0.2) 0%, rgba(23, 23, 23, 0.8) 90%);
   }

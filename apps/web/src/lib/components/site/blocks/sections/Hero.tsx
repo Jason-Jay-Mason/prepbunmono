@@ -26,7 +26,7 @@ export const HeroSection: React.FC<HeroBlock> = (p) => {
               className="text-white text-center lg:text-left text-4xl font-extrabold md:text-5xl lg:text-5xl 2xl:text-6xl"
               dangerouslySetInnerHTML={{ __html: p.headline }}
             ></h1>
-            <h2 className="text-white text-md text-center lg:text-left md:text-xl max-w-[800px]">
+            <h2 className="text-white text-md text-center lg:text-left md:text-xl max-w-[800px] pb-2">
               {p.blurb}
             </h2>
             <div
