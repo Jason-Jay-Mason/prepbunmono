@@ -175,6 +175,7 @@ export interface Page {
         | StatGridBlock
         | PreFooterCtaBlock
         | HeroVideoBoxBlock
+        | SmallHeroBlock
       )[]
     | null;
   seo: {
@@ -429,6 +430,21 @@ export interface HeroVideoBoxBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SmallHeroBlock".
+ */
+export interface SmallHeroBlock {
+  headline?: string | null;
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'SmallHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -541,6 +557,7 @@ export interface PagesSelect<T extends boolean = true> {
         StatGrid?: T | StatGridBlockSelect<T>;
         PreFooterCta?: T | PreFooterCtaBlockSelect<T>;
         HeroVideoBox?: T | HeroVideoBoxBlockSelect<T>;
+        SmallHero?: T | SmallHeroBlockSelect<T>;
       };
   seo?:
     | T
@@ -801,6 +818,22 @@ export interface HeroVideoBoxBlockSelect<T extends boolean = true> {
       };
   salesVideoCtaInnerText?: T;
   salesVideoSrc?: T;
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SmallHeroBlock_select".
+ */
+export interface SmallHeroBlockSelect<T extends boolean = true> {
+  headline?: T;
   section?:
     | T
     | {

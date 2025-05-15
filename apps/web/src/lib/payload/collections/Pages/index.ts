@@ -8,6 +8,7 @@ import { ReviewSlider } from "./blocks/ReviewSlider"
 import { StatGrid } from "./blocks/StatGrid"
 import { PreFooterCta } from "./blocks/PreFooterCta"
 import { HeroVideoBox } from "./blocks/HeroVideoBox"
+import { SmallHero } from "./blocks/SmallHero"
 
 export const Pages = DefaultPageCollection([
   //Add Blocks Here,
@@ -20,4 +21,5 @@ export const Pages = DefaultPageCollection([
   StatGrid,
   PreFooterCta,
   HeroVideoBox,
+  SmallHero,
 ]);

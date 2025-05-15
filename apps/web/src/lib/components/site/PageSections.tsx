@@ -8,6 +8,7 @@ import { ReviewSliderSection } from './blocks/sections/ReviewSlider'
 import { StatGridSection } from './blocks/sections/StatGrid'
 import { PreFooterCtaSection } from './blocks/sections/PreFooterCta'
 import { HeroVideoBoxSection } from './blocks/sections/HeroVideoBox'
+import { SmallHeroSection } from './blocks/sections/SmallHero'
 
 export const PageSecitons: React.FC<Page> = (p) => (
   <>
@@ -15,6 +16,8 @@ export const PageSecitons: React.FC<Page> = (p) => (
       p.sections.map((s, i) => {
         const key = `${i}-${s.blockName}`;
         switch (s.blockType) {
+          case "SmallHero":
+            return <SmallHeroSection {...s} key={key} />
           case "HeroVideoBox":
             return <HeroVideoBoxSection {...s} key={key} />
           case "PreFooterCta":
