@@ -177,6 +177,7 @@ export interface Page {
         | HeroVideoBoxBlock
         | SmallHeroBlock
         | FeaturedRichTextBlock
+        | ContactFormBlock
       )[]
     | null;
   seo: {
@@ -282,9 +283,9 @@ export interface FeaturedVideoBlock {
  * via the `definition` "IconGridBlock".
  */
 export interface IconGridBlock {
-  standardHeadline: {
-    subHeadline: string;
-    headline: string;
+  standardHeadline?: {
+    subHeadline?: string | null;
+    headline?: string | null;
   };
   gridCells: {
     icon: Media;
@@ -327,9 +328,9 @@ export interface LargeVideoCtaBlock {
  * via the `definition` "ReviewSliderBlock".
  */
 export interface ReviewSliderBlock {
-  standardHeadline: {
-    subHeadline: string;
-    headline: string;
+  standardHeadline?: {
+    subHeadline?: string | null;
+    headline?: string | null;
   };
   videoSrc?: string | null;
   videoPreviewSrc?: string | null;
@@ -449,9 +450,9 @@ export interface SmallHeroBlock {
  * via the `definition` "FeaturedRichTextBlock".
  */
 export interface FeaturedRichTextBlock {
-  standardHeadline: {
-    subHeadline: string;
-    headline: string;
+  standardHeadline?: {
+    subHeadline?: string | null;
+    headline?: string | null;
   };
   body: {
     root: {
@@ -476,6 +477,20 @@ export interface FeaturedRichTextBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'FeaturedRichText';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlock".
+ */
+export interface ContactFormBlock {
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'ContactForm';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -593,6 +608,7 @@ export interface PagesSelect<T extends boolean = true> {
         HeroVideoBox?: T | HeroVideoBoxBlockSelect<T>;
         SmallHero?: T | SmallHeroBlockSelect<T>;
         FeaturedRichText?: T | FeaturedRichTextBlockSelect<T>;
+        ContactForm?: T | ContactFormBlockSelect<T>;
       };
   seo?:
     | T
@@ -891,6 +907,21 @@ export interface FeaturedRichTextBlockSelect<T extends boolean = true> {
         headline?: T;
       };
   body?: T;
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlock_select".
+ */
+export interface ContactFormBlockSelect<T extends boolean = true> {
   section?:
     | T
     | {

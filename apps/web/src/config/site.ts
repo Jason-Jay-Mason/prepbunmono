@@ -1,30 +1,30 @@
-import { Pattern } from "@/lib/utils"
+import { Pattern } from "@/lib/utils";
 
 type SiteConfig = {
   production: {
-    domain: string
-    url: string
-  }
+    domain: string;
+    url: string;
+  };
   seo: {
-    siteName: string
+    siteName: string;
     defaults: {
-      pageDescription: string
-      category: string
+      pageDescription: string;
+      category: string;
       robots: {
-        index: boolean
-        follow: boolean
+        index: boolean;
+        follow: boolean;
         googleBot: {
-          index: boolean
-          follow: boolean
-        }
-      }
+          index: boolean;
+          follow: boolean;
+        };
+      };
 
-      twitterImg: string
-      openGraphImg: string
-    }
-  }
-  constructionPages: Pattern[]
-}
+      twitterImg: string;
+      openGraphImg: string;
+    };
+  };
+  constructionPages: Pattern[];
+};
 
 export const siteConfig: SiteConfig = {
   production: {
@@ -34,7 +34,8 @@ export const siteConfig: SiteConfig = {
   seo: {
     siteName: "Prepbun",
     defaults: {
-      pageDescription: "SAT prep services geared toward college admissions and scholarships.",
+      pageDescription:
+        "SAT prep services geared toward college admissions and scholarships.",
       category: "education",
       robots: {
         index: true,
@@ -48,5 +49,5 @@ export const siteConfig: SiteConfig = {
       openGraphImg: "/social-cover.jpeg",
     },
   },
-  constructionPages: ["/contact", "/login"],
-}
+  constructionPages: ["/blob"],
+};

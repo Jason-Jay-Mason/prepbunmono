@@ -29,13 +29,11 @@ export const standardHeadline: Field = {
       name: "subHeadline",
       label: "Sub Headline",
       type: "text",
-      required: true,
     },
     {
       name: "headline",
       label: "Headline",
       type: "text",
-      required: true,
     },
   ],
 };

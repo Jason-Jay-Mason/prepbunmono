@@ -54,7 +54,7 @@ export default async function Page(p: any) {
 
   return (
     <>
-      <NavControl isAbsolute={page.absoluteNav}></NavControl>
+      <NavControl isAbsolute={page.absoluteNav || false}></NavControl>
       <PayloadPage page={page} isDraft={draft.isEnabled} />
     </>
   );

@@ -11,7 +11,10 @@ export const FeaturedRichTextSection: React.FC<FeaturedRichTextBlock> = (p) => {
           {...p.standardHeadline}
           className="pb-8"
         ></StandardHeadline>
-        <RichText data={p.body} className="max-w-screen-lg"></RichText>
+        <RichText
+          data={p.body}
+          className="max-w-screen-lg text-base md:text-lg"
+        ></RichText>
       </div>
     </Section>
   );

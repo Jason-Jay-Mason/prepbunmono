@@ -10,6 +10,7 @@ import { PreFooterCtaSection } from './blocks/sections/PreFooterCta'
 import { HeroVideoBoxSection } from './blocks/sections/HeroVideoBox'
 import { SmallHeroSection } from './blocks/sections/SmallHero'
 import { FeaturedRichTextSection } from './blocks/sections/FeaturedRichText'
+import { ContactFormSection } from './blocks/sections/ContactForm'
 
 export const PageSecitons: React.FC<Page> = (p) => (
   <>
@@ -17,6 +18,8 @@ export const PageSecitons: React.FC<Page> = (p) => (
       p.sections.map((s, i) => {
         const key = `${i}-${s.blockName}`;
         switch (s.blockType) {
+          case "ContactForm":
+            return <ContactFormSection {...s} key={key} />
           case "FeaturedRichText":
             return <FeaturedRichTextSection {...s} key={key} />
           case "SmallHero":

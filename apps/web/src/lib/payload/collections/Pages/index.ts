@@ -10,6 +10,7 @@ import { PreFooterCta } from "./blocks/PreFooterCta"
 import { HeroVideoBox } from "./blocks/HeroVideoBox"
 import { SmallHero } from "./blocks/SmallHero"
 import { FeaturedRichText } from "./blocks/FeaturedRichText"
+import { ContactForm } from "./blocks/ContactForm"
 
 export const Pages = DefaultPageCollection([
   //Add Blocks Here,
@@ -24,4 +25,5 @@ export const Pages = DefaultPageCollection([
   HeroVideoBox,
   SmallHero,
   FeaturedRichText,
+  ContactForm,
 ]);

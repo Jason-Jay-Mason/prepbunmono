@@ -10,6 +10,7 @@ export const env = createEnv({
     NEXT_PUBLIC_CLIENT_URL: z.string().min(1),
     NEXT_PUBLIC_POSTHOG_KEY: z.string().min(1),
     NEXT_PUBLIC_POSTHOG_HOST: z.string().min(1),
+    NEXT_PUBLIC_GOOGLE_MAPS: z.string().min(1),
   },
   runtimeEnv: {
     PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
@@ -17,5 +18,6 @@ export const env = createEnv({
     NEXT_PUBLIC_CLIENT_URL: process.env.NEXT_PUBLIC_CLIENT_URL,
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    NEXT_PUBLIC_GOOGLE_MAPS: process.env.NEXT_PUBLIC_GOOGLE_MAPS,
   },
 });
