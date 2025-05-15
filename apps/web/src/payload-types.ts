@@ -176,6 +176,7 @@ export interface Page {
         | PreFooterCtaBlock
         | HeroVideoBoxBlock
         | SmallHeroBlock
+        | FeaturedRichTextBlock
       )[]
     | null;
   seo: {
@@ -445,6 +446,39 @@ export interface SmallHeroBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedRichTextBlock".
+ */
+export interface FeaturedRichTextBlock {
+  standardHeadline: {
+    subHeadline: string;
+    headline: string;
+  };
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  section: {
+    sectionId: string;
+    paddingTop: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+    paddingBottom: 'none' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'FeaturedRichText';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -558,6 +592,7 @@ export interface PagesSelect<T extends boolean = true> {
         PreFooterCta?: T | PreFooterCtaBlockSelect<T>;
         HeroVideoBox?: T | HeroVideoBoxBlockSelect<T>;
         SmallHero?: T | SmallHeroBlockSelect<T>;
+        FeaturedRichText?: T | FeaturedRichTextBlockSelect<T>;
       };
   seo?:
     | T
@@ -834,6 +869,28 @@ export interface HeroVideoBoxBlockSelect<T extends boolean = true> {
  */
 export interface SmallHeroBlockSelect<T extends boolean = true> {
   headline?: T;
+  section?:
+    | T
+    | {
+        sectionId?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedRichTextBlock_select".
+ */
+export interface FeaturedRichTextBlockSelect<T extends boolean = true> {
+  standardHeadline?:
+    | T
+    | {
+        subHeadline?: T;
+        headline?: T;
+      };
+  body?: T;
   section?:
     | T
     | {

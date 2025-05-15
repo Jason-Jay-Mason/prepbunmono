@@ -9,6 +9,7 @@ import { StatGridSection } from './blocks/sections/StatGrid'
 import { PreFooterCtaSection } from './blocks/sections/PreFooterCta'
 import { HeroVideoBoxSection } from './blocks/sections/HeroVideoBox'
 import { SmallHeroSection } from './blocks/sections/SmallHero'
+import { FeaturedRichTextSection } from './blocks/sections/FeaturedRichText'
 
 export const PageSecitons: React.FC<Page> = (p) => (
   <>
@@ -16,6 +17,8 @@ export const PageSecitons: React.FC<Page> = (p) => (
       p.sections.map((s, i) => {
         const key = `${i}-${s.blockName}`;
         switch (s.blockType) {
+          case "FeaturedRichText":
+            return <FeaturedRichTextSection {...s} key={key} />
           case "SmallHero":
             return <SmallHeroSection {...s} key={key} />
           case "HeroVideoBox":

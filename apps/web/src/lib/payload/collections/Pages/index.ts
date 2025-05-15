@@ -9,6 +9,7 @@ import { StatGrid } from "./blocks/StatGrid"
 import { PreFooterCta } from "./blocks/PreFooterCta"
 import { HeroVideoBox } from "./blocks/HeroVideoBox"
 import { SmallHero } from "./blocks/SmallHero"
+import { FeaturedRichText } from "./blocks/FeaturedRichText"
 
 export const Pages = DefaultPageCollection([
   //Add Blocks Here,
@@ -22,4 +23,5 @@ export const Pages = DefaultPageCollection([
   PreFooterCta,
   HeroVideoBox,
   SmallHero,
+  FeaturedRichText,
 ]);
