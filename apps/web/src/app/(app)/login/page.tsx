@@ -17,7 +17,7 @@ const Page: React.FC<any> = () => {
             controls={false}
           >
             <source
-              src="https://res.cloudinary.com/daki5cwn0/video/upload/v1745562980/preview_iezoy6.mp4"
+              src="https://res.cloudinary.com/daki5cwn0/video/upload/v1747346376/home-hero_qfeodl.mp4"
               type="video/mp4"
             />
           </video>
