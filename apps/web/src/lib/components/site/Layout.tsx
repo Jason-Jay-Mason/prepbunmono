@@ -366,9 +366,11 @@ const Footer: React.FC<Sitenav> = (p) => {
             </p>
           </div>
           <div className="flex justify-start gap-5 text-white items-center xl:w-full xl:place-content-end">
-            <Button className="text-black hover:text-black bg-white hover:bg-white/90">
-              Sign In
-            </Button>
+            <Link href="/login">
+              <Button className="text-black hover:text-black bg-white hover:bg-white/90">
+                Sign In
+              </Button>
+            </Link>
           </div>
         </nav>
       </div>

@@ -5,6 +5,7 @@ import { useSetAtom } from "jotai";
 import { videoSrcAtom, videoVisibleAtom } from "@/lib/ui/VideoOverlat";
 import { Button } from "@/lib/ui/shadcn/button";
 import { PlayIcon } from "lucide-react";
+import Link from "next/link";
 
 export const HeroVideoBoxSection: React.FC<HeroVideoBoxBlock> = (p) => {
   const setVideoVis = useSetAtom(videoVisibleAtom);
@@ -32,12 +33,15 @@ export const HeroVideoBoxSection: React.FC<HeroVideoBoxBlock> = (p) => {
               id="ctas"
               className="flex flex-col sm:flex-row gap-3 justify-center items-center lg:justify-start w-full"
             >
-              <Button
-                size="lg"
-                className="text-foreground bg-background hover:bg-white/90 hover:text-primary w-[80%] sm:w-max"
-              >
-                {p.primaryCta.innerText}
-              </Button>
+              <Link href={p.primaryCta.href}>
+                <Button
+                  size="lg"
+                  className="text-foreground bg-background hover:bg-white/90 hover:text-primary w-[80%] sm:w-max"
+                >
+                  {p.primaryCta.innerText}
+                </Button>
+              </Link>
+
               {p.salesVideoSrc && (
                 <Button
                   size="lg"
