@@ -172,7 +172,7 @@
   }
 
   .herogradient {
-    background: linear-gradient(-170deg, rgba(23, 23, 23, 0.2) 0%, #171717 90%);
+    background: linear-gradient(-170deg, rgba(23, 23, 23, 0.1) 0%, rgba(23, 23, 23, 0.9) 90%);
   }
 
   .boxgradient {
@@ -180,7 +180,7 @@
   }
 
   .videoctagradient {
-    background: linear-gradient(0deg, rgba(23, 23, 23, 0.2) 0%, rgba(23, 23, 23, 0.8) 90%);
+    background: linear-gradient(0deg, rgba(23, 23, 23, 0.1) 0%, rgba(23, 23, 23, 0.4) 90%);
   }
 }
 
@@ -212,12 +212,13 @@
   }
 
   ::selection {
-    background-color: var(--foreground);
-    color: var(--foreground);
+    background-color: #4287D7;
+    color: #ffffff;
   }
 
   ::-moz-selection {
-    background-color: var(--foreground);
-    color: var(--foreground);
+    background-color: #4287D7;
+    color: #ffffff;
   }
+
 }

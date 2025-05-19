@@ -32,7 +32,7 @@ export default buildConfig({
   // database-adapter-config-start
   db: postgresAdapter({
     pool: {
-      connectionString: env.PAYLOAD_DATABASE_URI_DEV,
+      connectionString: env.PAYLOAD_DATABASE_URI,
     },
   }),
   // database-adapter-config-end

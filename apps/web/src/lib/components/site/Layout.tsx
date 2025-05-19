@@ -181,32 +181,13 @@ export const SiteLayout: React.FC<{
           </div>
           <div id="buttons" className="flex gap-2 pt-10 px-3">
             <Link href="/login" id="primary-cta-nav">
-              <Button
-                size="sm"
-                variant="outline"
-                className={cn(
-                  absolute
-                    ? "border-background text-background group-hover/nav:text-foreground group-hover/nav:border-foreground"
-                    : "group-hover/nav:text-foreground",
-                  sticky && "text-foreground border-foreground",
-                )}
-              >
+              <Button size="sm" variant="outline">
                 Log In
               </Button>
             </Link>
 
             <Link href="https://meetings-na2.hubspot.com/thao-bui">
-              <Button
-                size="sm"
-                className={cn(
-                  absolute
-                    ? "border-background text-foreground bg-background group-hover/nav:text-background group-hover/nav:bg-foreground"
-                    : "group-hover/nav:text-foreground",
-                  sticky && "bg-foreground text-background",
-                )}
-              >
-                Get Started
-              </Button>
+              <Button size="sm">Get Started</Button>
             </Link>
           </div>
         </NavigationBarModel>
@@ -264,15 +245,14 @@ const NavigationBarImageMenu: React.FC<SiteNavImageMenuBlock> = (p) => {
             <NavigationMenuLink asChild>
               <a
                 href="/"
-                className="relative flex h-full w-full text-background select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-foreground p-6 no-underline outline-none focus:shadow-md"
+                className="relative flex h-full w-full text-background select-none flex-col justify-end rounded-md bg-gradient-to-b from-transparent to-primary p-6 no-underline outline-none focus:shadow-md"
               >
                 <LogoSmall className="relative h-6 w-6 z-10 fill-background mb-2" />
                 <div className="text-lg font-medium z-1 pb-2 leading-tight">
                   {p.headline}
                 </div>
                 <p className="text-sm leading-tight z-1 text-background">
-                  Beautifully designed components built with Radix UI and
-                  Tailwind CSS.
+                  {p.blurb}
                 </p>
                 {p.image.url && (
                   <Image
@@ -291,7 +271,7 @@ const NavigationBarImageMenu: React.FC<SiteNavImageMenuBlock> = (p) => {
           {p.links &&
             p.links.map((link, i) => (
               <ListItem
-                className="text-lg"
+                className="text-lg px-5 hover:bg-border"
                 key={`${link.title}${i}`}
                 title={link.title || ""}
                 href={link.href || "/"}

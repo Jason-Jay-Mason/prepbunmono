@@ -1,3 +1,5 @@
+"use client";
+
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { cn } from "@/lib/utils";
 import {
@@ -9,21 +11,19 @@ import {
 import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useScrollPosition, useWindowSize } from "@/lib/hooks";
-import { navigationMenuTriggerStyle } from "./shadcn/navigation-menu";
 
 //Global state opinions suck in react and I loath them, it is useful sometimes for reuseability; I bring in atom for global client side state so we don't have to deal with context
 export const modelActiveAtom = atom(false);
 export const navStickyAtom = atom(false);
-export const navAbsoluteAtom = atom(true);
+export const navAbsoluteAtom = atom<boolean | null>(null);
 
 const baseNavBarStyles =
-  "border-b border-transparent w-full sticky top-0 transition-all z-[100]";
+  "border-b lg:-mb-[62px] border-transparent w-full sticky top-0  z-[100]";
 function NavigationBar(p: {
   children: React.ReactNode;
   spacerClassName?: string;
   className?: string;
 }) {
-  const [absolute, setAbsolute] = useAtom(navAbsoluteAtom);
   const [modelActive, setModelActive] = useAtom(modelActiveAtom);
   const [sticky, setSticky] = useAtom(navStickyAtom);
   const windowSize = useWindowSize();
@@ -50,6 +50,7 @@ function NavigationBar(p: {
     setModelActive(false);
   }, [windowSize]);
 
+  // absolute ? "lg:-mb-[62px]" : "mb-0",
   return (
     <>
       <div
@@ -67,8 +68,6 @@ function NavigationBar(p: {
         className={cn(
           baseNavBarStyles,
           hidden ? "-translate-y-full transform" : "translate-y-0",
-          absolute ? "lg:-mb-[62px]" : "mb-0",
-
           sticky
             ? "border-border bg-background border-b text-foreground fill-foreground"
             : "bg-transparent",
@@ -237,7 +236,7 @@ const NavigationBarModalControl = React.forwardRef<
 });
 
 const baseNavigationBarModelStyles =
-  "fixed border-t border-border bg-card w-full h-[calc(100vh-50px)] transition-all";
+  "fixed border-t border-border bg-card w-full min-h-[calc(100vh-50px)] transition-all overflow-scroll";
 type NavigationBarModelProps = {
   className?: string;
   children: React.ReactNode;
@@ -261,7 +260,7 @@ const NavigationBarModel = React.forwardRef<
             )
       }
     >
-      {p.children}
+      <div>{p.children}</div>
     </nav>
   );
 });

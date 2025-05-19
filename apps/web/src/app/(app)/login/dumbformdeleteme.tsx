@@ -1,8 +1,8 @@
 "use client";
 import { Button } from "@/lib/ui/shadcn/button";
 import Link from "next/link";
-import { Login } from "./page";
 import { useState } from "react";
+import { Login } from "./action";
 
 export const DumbForm: React.FC<any> = () => {
   const [error, setError] = useState<string>("");

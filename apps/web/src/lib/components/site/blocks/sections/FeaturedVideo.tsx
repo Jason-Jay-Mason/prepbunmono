@@ -16,7 +16,7 @@ export const FeaturedVideoSection: React.FC<FeaturedVideoBlock> = (p) => {
   return (
     <Section section={p.section}>
       <div className="grid lg:grid-cols-2 xl:grid-cols-3 max-w-screen-2xl m-auto 2xl:gap-5 xl:gap-3">
-        <div className="order-2 lg:order-1 xl:col-span-2 relative overflow-clip rounded-2xl border-border w-full bg-red-100 aspect-square sm:aspect-video lg:aspect-auto">
+        <div className="order-2 lg:order-1 xl:col-span-2 relative overflow-clip rounded-2xl border-border w-full aspect-square sm:aspect-video lg:aspect-auto">
           <div className="absolute z-10 w-full flex h-full items-center justify-center">
             <Button
               className="bg-white text-black hover:bg-white/90"

@@ -19,8 +19,8 @@ export const HeroVideoBoxSection: React.FC<HeroVideoBoxBlock> = (p) => {
       className="relative h-full py-10 sm:py-0 sm:h-[100vw] min-h-max lg:min-h-[800px] lg:h-[80vh] w-full flex justify-center px-5"
     >
       <div className="relative border rounded-2xl w-full h-full max-w-[1485px] overflow-clip flex items-center lg:items-end">
-        <div className="relative w-fit z-20 p-20">
-          <div className="flex flex-col justify-center lg:items-start items-center gap-5 md:gap-6">
+        <div className="relative w-full md:w-fit z-20 py-10 px-5 md:p-20">
+          <div className="flex flex-col justify-center lg:items-start items-center gap-5 md:gap-6 w-full">
             <h1
               className="text-white text-center lg:text-left text-4xl font-extrabold md:text-5xl lg:text-5xl 2xl:text-5xl"
               dangerouslySetInnerHTML={{ __html: p.headline }}
@@ -53,7 +53,7 @@ export const HeroVideoBoxSection: React.FC<HeroVideoBoxBlock> = (p) => {
           </div>
         </div>
 
-        <div className="absolute w-full h-full boxgradient z-10 top-0"></div>
+        <div className="absolute w-full h-full  boxgradient z-10 top-0"></div>
         <video
           className="absolute h-full w-full object-cover z-0 top-0"
           loop

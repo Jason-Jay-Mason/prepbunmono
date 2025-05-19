@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "echo 'Nothing to build'",
-    "dev": "docker build -t proxy-dev . && docker run -d --rm --network host --name proxy-dev proxy-dev",
-    "dev:stop": "docker stop proxy-dev || true",
+    "dev": "docker-compose up --build",
+    "dev:stop": "docker-compose down",
     "deploy": "docker build -t proxy-prod . && docker push proxy-prod"
   }
 }

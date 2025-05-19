@@ -162,7 +162,7 @@ export interface Media {
 export interface Page {
   id: number;
   title: string;
-  absoluteNav?: boolean | null;
+  absoluteNav: boolean;
   slug?: string | null;
   sections?:
     | (

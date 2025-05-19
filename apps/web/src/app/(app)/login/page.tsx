@@ -1,14 +1,5 @@
-"use server";
 import { Logo } from "@/lib/components/Logos";
-import { ActionResult } from "next/dist/server/app-render/types";
 import { DumbForm } from "./dumbformdeleteme";
-
-export async function Login(f: FormData): Promise<ActionResult> {
-  return {
-    success: false,
-    errors: "Incorrect email or password",
-  };
-}
 
 const Page: React.FC<any> = () => {
   return (

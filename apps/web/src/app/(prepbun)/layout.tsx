@@ -4,6 +4,8 @@ import { getPayload } from "payload";
 import config from "@/payload.config";
 import { SiteLayout } from "@/lib/components/site/Layout";
 import { VideoOverlay } from "@/lib/ui/VideoOverlat";
+import { Hubspot } from "@/lib/hubspot/scripts";
+import { PostHogProvider } from "@/lib/posthog/provider";
 
 const Layout: React.FC<any> = async ({ children }) => {
   const p = await getPayload({ config });
@@ -14,10 +16,13 @@ const Layout: React.FC<any> = async ({ children }) => {
   return (
     <html lang="en" className="">
       <body className="relative">
-        <VideoOverlay />
-        <SiteLayout nav={sitenav}>
-          <main className="z-10 min-h-[75dvh] bg-background">{children}</main>
-        </SiteLayout>
+        <PostHogProvider>
+          <VideoOverlay />
+          <SiteLayout nav={sitenav}>
+            <main className="z-10 min-h-[75dvh] bg-background">{children}</main>
+          </SiteLayout>
+          <Hubspot />
+        </PostHogProvider>
       </body>
     </html>
   );

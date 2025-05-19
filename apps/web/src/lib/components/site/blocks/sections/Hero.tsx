@@ -17,7 +17,7 @@ export const HeroSection: React.FC<HeroBlock> = (p) => {
   return (
     <Section
       section={p.section}
-      className="relative bg-red-100 h-full py-10 sm:py-0 sm:h-[100vw] min-h-max lg:min-h-[800px] lg:h-[80vh] w-full px-0 "
+      className="relative h-full py-10 sm:py-0 sm:h-[100vw] min-h-max lg:min-h-[800px] lg:h-[80vh] w-full px-0"
     >
       <div className="relative sm:absolute w-full h-full z-20 flex justify-center">
         <div className="w-full px-4 md:px-7 max-w-[1536px] my-5 lg:my-20 2xl:my-30 flex flex-col justify-center items-center lg:items-start lg:justify-end gap-5">

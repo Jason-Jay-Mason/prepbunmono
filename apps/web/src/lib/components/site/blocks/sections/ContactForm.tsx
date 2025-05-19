@@ -1,3 +1,5 @@
+"use client";
+
 import { ContactFormBlock } from "@/payload-types";
 import { Section } from "@/lib/components/site/Section";
 import { Map } from "../../Map";
@@ -7,6 +9,13 @@ import { LogoSmall } from "@/lib/components/Logos";
 import Link from "next/link";
 
 export const ContactFormSection: React.FC<ContactFormBlock> = (p) => {
+  const handleOpenChat = () => {
+    //@ts-ignore
+    if (window.HubSpotConversations) {
+      //@ts-ignore
+      window.HubSpotConversations.widget.open();
+    }
+  };
   return (
     <Section section={p.section}>
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-3 max-w-screen-2xl mx-auto">
@@ -49,7 +58,7 @@ export const ContactFormSection: React.FC<ContactFormBlock> = (p) => {
               Need support? We reply to our chat the fastest. Get connected with
               somebody now.
             </p>
-            <Button size="lg" className="w-fit">
+            <Button size="lg" className="w-fit" onClick={handleOpenChat}>
               Chat Now
             </Button>
           </div>
