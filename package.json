@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:proxy": "turbo build --filter=proxy",
+    "build:web": "turbo build --filter=web",
     "dev": "turbo run dev",
     "dev:stop": "docker stop proxy-dev || true && docker rm proxy-dev || true",
     "lint": "turbo run lint",
