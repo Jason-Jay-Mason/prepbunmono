@@ -5,6 +5,7 @@ export const env = createEnv({
   server: {
     PAYLOAD_SECRET: z.string().min(1),
     PAYLOAD_DATABASE_URI: z.string().min(1),
+    POSTGRES_URI: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_CLIENT_URL: z.string().min(1),
@@ -19,5 +20,6 @@ export const env = createEnv({
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
     NEXT_PUBLIC_GOOGLE_MAPS: process.env.NEXT_PUBLIC_GOOGLE_MAPS,
+    POSTGRES_URI: process.env.POSTGRES_URI,
   },
 });
