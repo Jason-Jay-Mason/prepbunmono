@@ -17,6 +17,7 @@ const nextConfig = {
       },
     ];
   },
+  skipTrailingSlashRedirect: true,
 };
 
 export default withPayload(nextConfig);
