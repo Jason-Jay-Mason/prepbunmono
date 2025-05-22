@@ -15,7 +15,10 @@ export const LargeVideoCtaSection: React.FC<LargeVideoCtaBlock> = (p) => {
         </h2>
         <p className="text-white xl:text-xl xl:max-w-[700px]">{p.blurb}</p>
         <Link href={p.cta.href}>
-          <Button size="lg" className="bg-white text-foreground">
+          <Button
+            size="lg"
+            className="bg-white text-foreground hover:bg-white/90"
+          >
             {p.cta.innerText}
           </Button>
         </Link>
