@@ -45,3 +45,29 @@ export function isSimpleWildCardMatch(s: string, p: Pattern): boolean {
   }
   return table[s.length][p.length];
 }
+
+export function testLog(
+  data: unknown,
+  label = "testlog",
+  color: "red" | "green" | "blue" | "yellow" = "yellow",
+) {
+  const colors = {
+    red: "\x1b[31m",
+    green: "\x1b[32m",
+    blue: "\x1b[34m",
+    yellow: "\x1b[33m",
+    reset: "\x1b[0m",
+  };
+
+  const separator = "-".repeat(20);
+  const formattedData =
+    typeof data === "object" ? JSON.stringify(data, null, 2) : data;
+
+  console.log(`${colors[color]}
+${separator}
+${label}
+${separator}
+${formattedData}
+${separator}
+${colors.reset}`);
+}

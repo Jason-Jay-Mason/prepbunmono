@@ -1,4 +1,4 @@
-import { Pattern } from "@/lib/utils";
+import { Pattern } from "@/lib/utils/clientUtils";
 
 type SiteConfig = {
   production: {

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/clientUtils";
 import { LogoSmall } from "../Logos";
 
 export const StandardHeadline: React.FC<{

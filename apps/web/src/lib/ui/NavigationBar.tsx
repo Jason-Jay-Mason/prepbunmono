@@ -1,7 +1,7 @@
 "use client";
 
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/clientUtils";
 import {
   NavigationMenu,
   NavigationMenuItem,

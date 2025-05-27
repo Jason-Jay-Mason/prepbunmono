@@ -3,7 +3,7 @@ import { Section } from "@/lib/components/site/Section";
 import { Button } from "@/lib/ui/shadcn/button";
 import Link from "next/link";
 import Image from "next/image";
-import { blr } from "@/lib/utils";
+import { blr } from "@/lib/utils/clientUtils";
 
 export const PreFooterCtaSection: React.FC<PreFooterCtaBlock> = (p) => {
   return (

@@ -26,7 +26,7 @@ import {
 } from "@radix-ui/react-navigation-menu";
 import React from "react";
 import Image from "next/image";
-import { blr, cn } from "@/lib/utils";
+import { blr, cn } from "@/lib/utils/clientUtils";
 import { Logo, LogoSmall } from "../Logos";
 import { useAtomValue } from "jotai";
 import {

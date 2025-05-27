@@ -9,7 +9,7 @@ import { useSetAtom } from "jotai";
 import { videoSrcAtom, videoVisibleAtom } from "@/lib/ui/VideoOverlat";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { useMemo, useRef, useState } from "react";
-import { blr, cn } from "@/lib/utils";
+import { blr, cn } from "@/lib/utils/clientUtils";
 import Image from "next/image";
 
 export const ReviewSliderSection: React.FC<ReviewSliderBlock> = (p) => {

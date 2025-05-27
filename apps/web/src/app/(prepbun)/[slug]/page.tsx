@@ -5,7 +5,7 @@ import { draftMode } from "next/headers";
 import { getErr } from "@/lib/error/utils";
 import { payloadUtil } from "@/lib/payload/utils";
 import { siteConfig } from "@/config/site";
-import { isSimpleWildCardMatch } from "@/lib/utils";
+import { isSimpleWildCardMatch } from "@/lib/utils/clientUtils";
 import { MessagePage } from "@/lib/components/site/MessagePage";
 import { PayloadPage } from "@/lib/components/site/PayloadPage";
 import { NavControl } from "@/lib/components/site/NavControl";
