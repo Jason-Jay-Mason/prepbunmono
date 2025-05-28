@@ -1,5 +1,3 @@
-import { ZodError } from "zod";
-
 export function getErr(value: any): Error {
   if (value instanceof Error) return value;
 
@@ -13,11 +11,3 @@ export function getErr(value: any): Error {
   );
   return error;
 }
-
-//neverthrow error types
-export type ServerErr<T extends string> = {
-  type: T;
-  message?: string;
-  cause?: ServerErr<any> | ZodError | Error;
-  context?: any;
-};

@@ -1,4 +1,5 @@
 "use server";
+import "server-only";
 
 import { ActionResult } from "next/dist/server/app-render/types";
 export async function Login(f: FormData): Promise<ActionResult> {

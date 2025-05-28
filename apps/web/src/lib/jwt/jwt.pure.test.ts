@@ -14,8 +14,43 @@ describe("create and validate jwt", () => {
   let mockToken = "";
   it("should create a jwt", () => {
     const res = jwt.generate(mockSecret, mockClaims);
-    expect(res).toBeTruthy();
-    mockToken = res;
+    if (res.isErr()) {
+      expect.fail();
+    }
+    if (typeof res.value !== "string") expect.fail();
+    mockToken = res.value;
+  });
+
+  it("should throw error if bad claims", () => {
+    //@ts-ignore
+    const res = jwt.generate(mockSecret, { blob: "bad claims" });
+    if (res.isErr()) {
+      switch (res.error.type) {
+        case "Invalid claims object":
+          return;
+        case "Invalid secret":
+          expect.fail();
+        default:
+          expect.fail();
+      }
+    }
+    expect.fail();
+  });
+
+  it("should throw error if bad secret", () => {
+    //@ts-ignore
+    const res = jwt.generate(123120, mockClaims);
+    if (res.isErr()) {
+      switch (res.error.type) {
+        case "Invalid claims object":
+          expect.fail();
+        case "Invalid secret":
+          return;
+        default:
+          expect.fail();
+      }
+    }
+    expect.fail();
   });
 
   it("should parse the token with right secret", () => {

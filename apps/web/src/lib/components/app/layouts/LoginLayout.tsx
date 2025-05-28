@@ -1,9 +1,8 @@
-import { Logo } from "@/lib/components/Logos";
-import { DumbForm } from "./dumbformdeleteme";
+import { Logo } from "../../Logos";
 
-const Page: React.FC<any> = () => {
+export const LoginLayout: React.FC<any> = (p) => {
   return (
-    <div className="w-[100dvw] h-[100dvh] px-5 md:px-0">
+    <main className="w-[100dvw] h-[100dvh] px-5 md:px-0">
       <div className="grid grid-cols-1 md:grid-cols-3 h-full w-full">
         <div className="hidden md:flex relative w-full h-full overflow-clip items-start">
           <div className="w-full h-full absolute z-10 bg-black bg-primary/60"></div>
@@ -26,14 +25,9 @@ const Page: React.FC<any> = () => {
           id="form"
           className="col-span-2 flex flex-col justify-center items-center"
         >
-          <div className="w-full max-w-[425px]">
-            <h1 className="text-3xl font-bold mb-6">Sign In To Prepbun</h1>
-            <DumbForm />
-          </div>
+          {p.children}
         </div>
       </div>
-    </div>
+    </main>
   );
 };
-
-export default Page;

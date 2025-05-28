@@ -2,7 +2,7 @@
 import { atom, useAtom, useAtomValue } from "jotai";
 import React from "react";
 import { X } from "lucide-react";
-import { cn } from "../utils";
+import { cn } from "../utils/clientUtils";
 
 //TODO: maybe add CTA here
 export const videoVisibleAtom = atom<boolean>(false);

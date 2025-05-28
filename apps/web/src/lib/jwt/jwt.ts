@@ -1,17 +1,44 @@
 import j from "jsonwebtoken";
 import { Result, ok, err } from "neverthrow";
-import { getErr, ServerErr } from "../error/utils";
-import { Secret, Claims, Token, ParseJwtError } from "./types";
-import { VerifyClaimsSchema } from "./validators";
+import { getErr } from "../error/utils";
+import { Secret, Claims, Token } from "./types";
+import { generateClaimsSchema, praseClaimsSchema } from "./validators";
+import { ServerErr } from "../error/types";
 
-function generate(s: Secret, c: Claims) {
-  return j.sign(c, s);
+export type GenerateClaimsError = "Invalid secret" | "Invalid claims object";
+function generate(
+  s: Secret,
+  c: Claims,
+): Result<string, ServerErr<GenerateClaimsError>> {
+  if (typeof s !== "string") {
+    return err({
+      type: "Invalid secret",
+      message: "The secret passed to generate jwt claims was not a string",
+      context: new Error("Invalid secret").stack,
+    });
+  }
+  const res = generateClaimsSchema.safeParse(c);
+  if (res.error) {
+    return err({
+      type: "Invalid claims object",
+      message:
+        "Generate jwt claims recieved an invalid claims object. Sombody may be trying to spoof claims.",
+      cause: res.error,
+      context: res.error.stack,
+    });
+  }
+  return ok(j.sign(c, s));
 }
 
+export type ParseJwtError =
+  | "Unknown JWT parse error"
+  | "Invalid JWT signature"
+  | "JWT malformed"
+  | "Invalid claims object";
 function parse(t: Token, s: Secret): Result<Claims, ServerErr<ParseJwtError>> {
   try {
     const claims = j.verify(t, s);
-    const res = VerifyClaimsSchema.safeParse(claims);
+    const res = praseClaimsSchema.safeParse(claims);
     if (res.error) {
       return err({
         type: "Invalid claims object",

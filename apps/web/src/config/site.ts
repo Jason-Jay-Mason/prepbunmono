@@ -5,6 +5,12 @@ type SiteConfig = {
     domain: string;
     url: string;
   };
+  auth: {
+    saltRounds: number;
+    refreshTtl: number;
+    accessTtl: number;
+    maxLoginAttempts: number;
+  };
   seo: {
     siteName: string;
     defaults: {
@@ -28,7 +34,7 @@ type SiteConfig = {
 
 export const siteConfig: SiteConfig = {
   production: {
-    url: "https://prepbun.com",
+    url: "https://www.prepbun.com",
     domain: "prepbun.com",
   },
   seo: {
@@ -49,5 +55,11 @@ export const siteConfig: SiteConfig = {
       openGraphImg: "/social-cover.jpeg",
     },
   },
-  constructionPages: ["/blob"],
+  auth: {
+    saltRounds: 10,
+    refreshTtl: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+    accessTtl: 15 * 60 * 1000, // 15 minutes in milliseconds
+    maxLoginAttempts: 7,
+  },
+  constructionPages: ["/construction"],
 };
