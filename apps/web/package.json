@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.5.0",
+    "@hookform/resolvers": "^5.0.1",
     "@neondatabase/serverless": "^1.0.0",
     "@payloadcms/db-postgres": "^3.38.0",
     "@payloadcms/live-preview-react": "^3.38.0",
@@ -30,10 +31,12 @@
     "@payloadcms/richtext-lexical": "^3.38.0",
     "@payloadcms/storage-vercel-blob": "^3.38.0",
     "@radix-ui/react-accordion": "^1.2.10",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-navigation-menu": "^1.2.12",
-    "@radix-ui/react-slot": "^1.2.2",
+    "@radix-ui/react-slot": "^1.2.3",
     "@t3-oss/env-nextjs": "^0.13.4",
     "@tailwindcss/postcss": "^4.1.6",
+    "@types/validator": "^13.15.1",
     "@vis.gl/react-google-maps": "^1.5.2",
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
@@ -53,11 +56,14 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.56.4",
     "server-only": "^0.0.1",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.6",
     "tw-animate-css": "^1.2.9",
-    "zod": "^3.24.4"
+    "validator": "^13.15.15",
+    "xss": "^1.0.15",
+    "zod": "^3.25.32"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

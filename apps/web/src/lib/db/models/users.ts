@@ -35,6 +35,7 @@ async function createUser(u: InsertUser): AsyncErr<InsertUser, CreateUserErr> {
   } catch (unsafe) {
     //TODO: I need to figure out what the error looks like when the email is already taken
     const e = getErr(unsafe);
+    console.log("ERROR HERE", e.message);
     return err({
       type: "Unknown error",
       cause: e,

@@ -1,7 +1,4 @@
-import { db } from "@/lib/db/drizzle";
-import { deleteme } from "@/lib/db/schema";
 import { zValidator } from "@hono/zod-validator";
-import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { z } from "zod";
 
@@ -16,14 +13,8 @@ const route = app.get(
     }),
   ),
   async (c) => {
-    const { name } = c.req.valid("query");
-    const [message] = await db
-      .selectDistinct()
-      .from(deleteme)
-      .where(eq(deleteme.id, 1));
-
     return c.json({
-      message: `${message.message} ${name}`,
+      message: `hello api`,
     });
   },
 );

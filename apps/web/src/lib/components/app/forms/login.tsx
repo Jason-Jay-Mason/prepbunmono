@@ -1,103 +1,200 @@
 "use client";
-import { Login } from "@/lib/actions/actions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpAction } from "@/lib/actions/actions";
 import { Button } from "@/lib/ui/shadcn/button";
 import Link from "next/link";
-import { useState } from "react";
+import { Control, FieldPath, FieldValues, useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/lib/ui/shadcn/form";
+import { Input } from "@/lib/ui/Input";
+import {
+  LoginFormFields,
+  SignUpFormFields,
+  signUpFormSchema,
+  loginFormSchema,
+} from "@/lib/zod/validators";
 
 export const LoginForm: React.FC<any> = (p) => {
-  const [error, setError] = useState<string>("");
+  const form = useForm<LoginFormFields>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+    mode: "onBlur",
+  });
 
-  async function handleSubmit(f: FormData) {
-    setError("");
-    const result = await Login(f);
-    console.log(result);
-
-    if (!result.success && result.errors) {
-      setError(result.errors);
-    }
+  async function onSubmit(f: LoginFormFields) {
+    return;
   }
   return (
     <div className="w-full max-w-[425px]">
       <h1 className="text-3xl font-bold mb-6">Log In To Prepbun</h1>
-      <form className="w-full" action={handleSubmit}>
-        <label className="font-bold">Username or Email</label>
-        <input
-          type="text"
-          className="px-5 border mt-1 mb-5 border-border rounded-lg bg-white h-14 w-full"
-        />
-        <div className="flex justify-between">
-          <label className="font-bold">Password</label>
-          <Link className="underline text-sm" href="/login">
-            forgot?
-          </Link>
-        </div>
-        <input
-          type="password"
-          className="px-5 border mt-1 border-border rounded-lg bg-white h-14 w-full"
-        />
-        <Button size="lg" className="w-full mt-10" type="submit">
-          Sign In
-        </Button>
-        {error && <p className="text-destructive text-center mt-5">{error}</p>}
-        <p className="w-full text-center mt-5">
-          Need an account?{" "}
-          <Link
-            href="https://meetings-na2.hubspot.com/thao-bui"
-            className="underline"
-          >
-            Schedule your free session.
-          </Link>
-        </p>
-      </form>
+      <Form {...form}>
+        <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
+          <TextField
+            name="username"
+            type="text"
+            control={form.control}
+            label="Email or Username"
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="relative gap-0">
+                <div className="flex w-full justify-between">
+                  <FormLabel className="font-bold text-md">Password</FormLabel>
+                  <Link href="/password/reset" className="underline">
+                    Forgot?
+                  </Link>
+                </div>
+
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button size="lg" className="w-full mt-5" type="submit">
+            Sign In
+          </Button>
+
+          <p className="w-full text-center mt-5">
+            Need an account?{" "}
+            <Link
+              href="https://meetings-na2.hubspot.com/thao-bui"
+              className="underline"
+            >
+              Schedule your free session.
+            </Link>
+          </p>
+        </form>
+      </Form>
     </div>
   );
 };
 
-export const SignupForm: React.FC<any> = () => {
-  const [error, setError] = useState<string>("");
+export const SignUpForm: React.FC<any> = () => {
+  const form = useForm<SignUpFormFields>({
+    resolver: zodResolver(signUpFormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      firstName: "",
+      lastName: "",
+    },
+    mode: "onBlur",
+  });
 
-  async function handleSubmit(f: FormData) {
-    setError("");
-    const result = await Login(f);
-    console.log(result);
-
-    if (!result.success && result.errors) {
-      setError(result.errors);
-    }
+  async function onSubmit(f: SignUpFormFields) {
+    const res = await signUpAction(f);
+    console.log(res);
   }
+
   return (
     <div className="w-full max-w-[425px]">
-      <h1 className="text-3xl font-bold mb-6">Log In To Prepbun</h1>
-      <form className="w-full" action={handleSubmit}>
-        <label className="font-bold">Username or Email</label>
-        <input
-          type="text"
-          className="px-5 border mt-1 mb-5 border-border rounded-lg bg-white h-14 w-full"
-        />
-        <div className="flex justify-between">
-          <label className="font-bold">Password</label>
-          <Link className="underline text-sm" href="/login">
-            forgot?
-          </Link>
-        </div>
-        <input
-          type="password"
-          className="px-5 border mt-1 border-border rounded-lg bg-white h-14 w-full"
-        />
-        <Button size="lg" className="w-full mt-10" type="submit">
-          Sign In
-        </Button>
-        {error && <p className="text-destructive text-center mt-5">{error}</p>}
-        <p className="w-full text-center mt-5">
-          Need an account?{" "}
-          <Link
-            href="https://meetings-na2.hubspot.com/thao-bui"
-            className="underline"
-          >
-            Schedule your free session.
-          </Link>
-        </p>
-      </form>
+      <h1 className="text-3xl font-bold mb-6">Create Prepbun Account</h1>
+      <Form {...form}>
+        <form
+          className="w-full gap-2 flex flex-col"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <div className="grid md:grid-cols-2 gap-3">
+            <TextField
+              name="firstName"
+              type="text"
+              control={form.control}
+              label="First Name"
+            />
+
+            <TextField
+              name="lastName"
+              type="text"
+              control={form.control}
+              label="Last Name"
+            />
+          </div>
+
+          <TextField
+            name="email"
+            type="text"
+            control={form.control}
+            label="Email"
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="relative gap-0">
+                <FormLabel className="font-bold text-md">Password</FormLabel>
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="passwordConfirmation"
+            render={({ field }) => (
+              <FormItem className="relative gap-0">
+                <FormLabel className="font-bold text-md">
+                  Confirm Password
+                </FormLabel>
+
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button size="lg" className="w-full mt-5" type="submit">
+            Sign Up
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 };
+
+function TextField<T extends FieldValues>({
+  name,
+  label,
+  control,
+  type,
+}: {
+  name: FieldPath<T>;
+  label: string;
+  control: Control<T>;
+  type: string;
+}) {
+  return (
+    <FormField
+      key={name}
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className="relative gap-0">
+          <FormLabel className="font-bold text-md">{label}</FormLabel>
+          <FormControl>
+            <Input {...field} type={type} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}

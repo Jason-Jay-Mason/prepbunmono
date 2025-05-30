@@ -34,10 +34,10 @@ export const HeroSection: React.FC<HeroBlock> = (p) => {
               id="ctas"
               className="flex flex-col sm:flex-row gap-3 justify-center items-center lg:justify-start w-full"
             >
-              <Link href={p.primaryCta.href}>
+              <Link href={p.primaryCta.href} className="w-[80%] sm:w-max">
                 <Button
                   size="lg"
-                  className="text-foreground bg-background hover:bg-white/90 hover:text-primary w-[80%] sm:w-max"
+                  className="text-foreground bg-background hover:bg-white/90 hover:text-primary w-full sm:w-max m-auto"
                 >
                   {p.primaryCta.innerText}
                 </Button>
