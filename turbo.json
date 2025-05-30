@@ -21,7 +21,8 @@
         "NEXT_PUBLIC_POSTHOG_HOST",
         "NEXT_PUBLIC_GOOGLE_MAPS",
         "BLOB_READ_WRITE_TOKEN",
-        "POSTGRES_URI"
+        "POSTGRES_URI",
+        "JWT_SECRET"
       ],
       "outputs": [
         ".next/**",
