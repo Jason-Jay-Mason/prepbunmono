@@ -10,6 +10,9 @@ type SiteConfig = {
     refreshTtl: number;
     accessTtl: number;
     maxLoginAttempts: number;
+    confirmationCodeTtl: number;
+    pendingUserTtl: number;
+    passwordResetTtl: number;
   };
   seo: {
     siteName: string;
@@ -60,6 +63,9 @@ export const siteConfig: SiteConfig = {
     refreshTtl: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
     accessTtl: 15 * 60 * 1000, // 15 minutes in milliseconds
     maxLoginAttempts: 7,
+    confirmationCodeTtl: 5 * 60 * 1000, // 15 minutes in milliseconds
+    pendingUserTtl: 1 * 24 * 60 * 60 * 1000, //1 day
+    passwordResetTtl: 7 * 60 * 1000, //7 mins
   },
   constructionPages: ["/construction"],
 };

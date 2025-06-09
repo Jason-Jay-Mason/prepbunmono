@@ -1,0 +1,166 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Service Development Rules
+
+## Overview
+A "service" in this codebase is an exported object containing atomic functions used server-side in Hono handlers located in `@route.ts`. Services abstract server-side logic from handlers to increase reusability and maintainability.
+
+## Core Principles
+
+### 1. Error Handling Strategy
+- **Errors as values**: All errors are returned as values, not thrown exceptions
+- Use `AsyncErr<T, S>` type for async functions (imported from `@types.ts`)
+- Define error types as string literal unions above each service method
+- Always include `"Unknown error"` in error unions for unexpected failures
+
+### 2. Service Structure
+```typescript
+// service/serviceName.ts
+
+// Error types defined above the function
+type SomeServiceMethodErr = "Error one" | "Error two" | DependencyErr;
+
+async function someServiceMethod(
+  params: ParamType
+): AsyncErr<ReturnType, SomeServiceMethodErr> {
+  try {
+    // Implementation
+    return ok(result);
+  } catch (unsafe) {
+    const e = getErr(unsafe);
+    return err({
+      type: "Unknown error",
+      cause: e,
+      context: e.stack,
+    });
+  }
+}
+
+// Private functions (not exported)
+async function somePrivateHelper() {
+  // Private implementation
+}
+
+// Export object with public methods only
+export const ServiceName = {
+  someServiceMethod,
+  anotherServiceMethod,
+};
+```
+
+## Development Workflow
+
+### Phase 1: Design
+1. Write comments outlining the functionality
+2. Define anticipated error types
+3. Create method signature without implementation
+4. Wait for confirmation before proceeding
+
+Example:
+```typescript
+type CreateUserErr = "Email invalid" | "Database error" | SendEmailErr;
+async function createUser(data: UserData): AsyncErr<User, CreateUserErr> {
+  // Validate email format
+  // Check if email already exists
+  // Hash password
+  // Insert user into database
+  // Send welcome email
+  // Return created user
+}
+```
+
+### Phase 2: Implementation
+- Only implement after receiving "looks good" confirmation
+- Use try-catch blocks when calling potentially throwing functions
+- Return errors using `err()` and success using `ok()`
+- Chain dependent operations properly, checking for errors at each step
+
+### Phase 3: Testing
+- Tests go in `{serviceName}.test.ts` using Vitest
+- Work on one `it` block at a time
+- Each test should verify specific error conditions or success cases
+- Ask before running tests with `bun test:all`
+
+## Rules and Constraints
+
+### DO:
+1. **One method at a time**: Only create/edit one service method per task
+2. **Add to exports**: Always add new public methods to the service export object
+3. **Pure functions**: Design methods to be easily testable with minimal mocking
+4. **Error composition**: Compose error types from dependent function errors
+5. **Defensive coding**: Handle all possible error cases explicitly
+
+### DON'T:
+1. **Never create files**: File creation is handled manually
+2. **Don't edit other methods**: Unless explicitly instructed
+3. **Avoid side effects**: Don't directly call databases or external APIs within service methods
+4. **No implicit throws**: Always catch and convert to error values
+
+## Testing Patterns
+
+```typescript
+import { describe, it, expect } from "vitest";
+import { ServiceName } from "./serviceName";
+
+describe("serviceName service", () => {
+  it("should return specific error when condition is met", async () => {
+    const result = await ServiceName.someMethod(invalidInput);
+    
+    if (result.isOk()) expect.fail("Expected error");
+    
+    expect(result.error.type).toBe("Expected error type");
+  });
+  
+  it("should succeed with valid input", async () => {
+    const result = await ServiceName.someMethod(validInput);
+    
+    if (result.isErr()) expect.fail(`Unexpected error: ${result.error.type}`);
+    
+    expect(result.value).toEqual(expectedOutput);
+  });
+});
+```
+
+## Type Definitions Reference
+
+```typescript
+// From @types.ts
+import { Result } from "neverthrow";
+import { ZodError } from "zod";
+
+export type ServerErr<T extends string> = {
+  type: T;
+  message?: string;
+  cause?: ServerErr<any> | ZodError | Error;
+  context?: any;
+};
+
+export type AsyncErr<T, S extends string> = Promise<
+  Result<T, ServerErr<S | "Unknown error">>
+>;
+```
+
+## Handler Usage Example
+
+```typescript
+// In route.ts
+const result = await ServiceName.someMethod(input);
+
+if (result.isErr()) {
+  switch (result.error.type) {
+    case "Specific error":
+      return c.json({ error: "User-friendly message" }, 400);
+    case "Another error":
+      return c.json({ error: "Different message" }, 409);
+    case "Unknown error":
+      console.error(result.error);
+      return c.json({ error: "Internal server error" }, 500);
+  }
+}
+
+// Safe to use result.value here
+return c.json({ data: result.value }, 200);
+```

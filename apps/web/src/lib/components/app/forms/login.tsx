@@ -1,6 +1,5 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpAction } from "@/lib/actions/actions";
 import { Button } from "@/lib/ui/shadcn/button";
 import Link from "next/link";
 import { Control, FieldPath, FieldValues, useForm } from "react-hook-form";
@@ -19,6 +18,11 @@ import {
   signUpFormSchema,
   loginFormSchema,
 } from "@/lib/zod/validators";
+import { hc } from "hono/client";
+import { HonoApp } from "@/app/api/v1/[[...route]]/route";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export const LoginForm: React.FC<any> = (p) => {
   const form = useForm<LoginFormFields>({
@@ -83,7 +87,9 @@ export const LoginForm: React.FC<any> = (p) => {
   );
 };
 
+const client = hc<HonoApp>("/");
 export const SignUpForm: React.FC<any> = () => {
+  const router = useRouter();
   const form = useForm<SignUpFormFields>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -95,10 +101,32 @@ export const SignUpForm: React.FC<any> = () => {
     },
     mode: "onBlur",
   });
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   async function onSubmit(f: SignUpFormFields) {
-    const res = await signUpAction(f);
-    console.log(res);
+    try {
+      if (!executeRecaptcha) return;
+      const token = await executeRecaptcha("signup");
+      const res = await client.api.v1.auth.signup.$post({
+        json: {
+          form: f,
+          recaptcha: token,
+        },
+      });
+      if (!res.ok) {
+        console.log(await res.json());
+        toast.error("Server Error", {
+          description: "There was a problem. Try again later.",
+        });
+        return;
+      }
+      toast.success("Success", {
+        description: "Please confirm your email.",
+      });
+      router.push("/signup/confirm");
+    } catch (err) {
+      toast.error("There was a problem on our end. Please try again later.");
+    }
   }
 
   return (
@@ -162,8 +190,13 @@ export const SignUpForm: React.FC<any> = () => {
             )}
           />
           <Button size="lg" className="w-full mt-5" type="submit">
-            Sign Up
+            {form.formState.isSubmitting ? "Please wait..." : "Sign Up"}
           </Button>
+          {form.formState.errors.root?.message && (
+            <div className="text-destructive text-center pt-5">
+              {form.formState.errors.root?.message}
+            </div>
+          )}
         </form>
       </Form>
     </div>

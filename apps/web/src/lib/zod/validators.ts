@@ -61,3 +61,12 @@ export const signUpFormSchema = z
   });
 
 export type SignUpFormFields = z.infer<typeof signUpFormSchema>;
+
+export const signupFormRequestSchema = z.object({
+  form: signUpFormSchema,
+  recaptcha: z
+    .string()
+    .min(1, { message: "reCAPTCHA verification is required" }),
+});
+
+export type SignupFormRequestFields = z.infer<typeof signupFormRequestSchema>;

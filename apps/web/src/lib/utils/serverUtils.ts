@@ -2,7 +2,7 @@ import { AsyncErr } from "../error/types";
 import { getErr } from "../error/utils";
 import { err, ok } from "neverthrow";
 
-export type SafeFetchErrType = "Unknown fetch error";
+export type SafeFetchErr = "Unknown fetch error";
 
 interface SafeFetchResponse<T> {
   response: Response;
@@ -12,7 +12,7 @@ interface SafeFetchResponse<T> {
 export async function safeFetch<T>(
   input: RequestInfo | URL,
   init?: RequestInit,
-): AsyncErr<SafeFetchResponse<T>, SafeFetchErrType> {
+): AsyncErr<SafeFetchResponse<T>, SafeFetchErr> {
   let res;
   try {
     res = await fetch(input, init);

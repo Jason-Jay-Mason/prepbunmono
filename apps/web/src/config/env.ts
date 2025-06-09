@@ -7,12 +7,15 @@ export const env = createEnv({
     PAYLOAD_DATABASE_URI: z.string().min(1),
     JWT_SECRET: z.string().min(1),
     POSTGRES_URI: z.string().min(1),
+    RESEND: z.string().min(1),
+    RECAPTCHA_SECRET_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_CLIENT_URL: z.string().min(1),
     NEXT_PUBLIC_POSTHOG_KEY: z.string().min(1),
     NEXT_PUBLIC_POSTHOG_HOST: z.string().min(1),
     NEXT_PUBLIC_GOOGLE_MAPS: z.string().min(1),
+    NEXT_PUBLIC_RECAPTCHA_SITE_KEY: z.string().min(1),
   },
   runtimeEnv: {
     JWT_SECRET: process.env.JWT_SECRET,
@@ -23,5 +26,8 @@ export const env = createEnv({
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
     NEXT_PUBLIC_GOOGLE_MAPS: process.env.NEXT_PUBLIC_GOOGLE_MAPS,
     POSTGRES_URI: process.env.POSTGRES_URI,
+    RESEND: process.env.RESEND,
+    NEXT_PUBLIC_RECAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+    RECAPTCHA_SECRET_KEY: process.env.RECAPTCHA_SECRET_KEY,
   },
 });

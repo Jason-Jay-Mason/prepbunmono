@@ -1,4 +1,10 @@
-import { integer, boolean, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import {
+  integer,
+  boolean,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { db } from "../drizzle";
 import { eq } from "drizzle-orm";
 import { err, ok } from "neverthrow";
@@ -6,36 +12,42 @@ import { getErr } from "@/lib/error/utils";
 import { AsyncErr } from "@/lib/error/types";
 
 export const usersTable = pgTable("users", {
-  id: uuid("id").notNull().primaryKey().unique(),
+  id: text("id").notNull().primaryKey(),
   email: text("email").notNull().unique(),
+  password: text("password").notNull(),
   emailConfirmed: boolean("email_confirmed").notNull().default(false),
+
   // Email confirmation
   confirmationToken: text("confirmation_token"),
-  confirmationTokenExpires: text("confirmation_token_expires"),
+  confirmationTokenExpires: timestamp("confirmation_token_expires"),
 
   // Password reset
   passwordResetToken: text("password_reset_token"),
-  passwordResetTokenExpires: text("password_reset_token_expires"),
+  passwordResetTokenExpires: timestamp("password_reset_token_expires"),
 
-  password: text("password").notNull(),
   loginAttempts: integer("login_attempts").default(0).notNull(),
-  lastLoginAttempt: text("last_login_attempt"),
-  createdAt: text("created_at").notNull(),
-  updatedAt: text("updated_at").notNull(),
+  lastLoginAttempt: timestamp("last_login_attempt"),
+
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
 });
 
 export type SelectUser = typeof usersTable.$inferSelect;
 export type InsertUser = typeof usersTable.$inferInsert;
 
-export type CreateUserErr = "Email taken" | "Id taken";
-async function createUser(u: InsertUser): AsyncErr<InsertUser, CreateUserErr> {
+async function updatePasswordResetToken(
+  uid: string,
+  token: string,
+  expires: Date,
+): AsyncErr<boolean, "Unknown error"> {
   try {
-    const res = await db.insert(usersTable).values(u).returning();
-    return ok(res[0]);
+    const res = await db
+      .update(usersTable)
+      .set({ passwordResetToken: token, passwordResetTokenExpires: expires })
+      .where(eq(usersTable.id, uid));
+    return ok(res.rows.length > 0);
   } catch (unsafe) {
-    //TODO: I need to figure out what the error looks like when the email is already taken
     const e = getErr(unsafe);
-    console.log("ERROR HERE", e.message);
     return err({
       type: "Unknown error",
       cause: e,
@@ -44,19 +56,58 @@ async function createUser(u: InsertUser): AsyncErr<InsertUser, CreateUserErr> {
   }
 }
 
-export type GetUserWithCredsErr = "User nonexistent";
-async function getUserByEmail(
+export type CreateUserErr = "Email taken" | "Id taken";
+async function createOne(u: InsertUser): AsyncErr<InsertUser, CreateUserErr> {
+  try {
+    const res = await db.insert(usersTable).values(u).returning();
+    return ok(res[0]);
+  } catch (unsafe) {
+    const e = getErr(unsafe);
+    if (e.message.search("user_email_unique")) {
+      return err({
+        type: "Email taken",
+        cause: e,
+        context: e.stack,
+      });
+    }
+
+    return err({
+      type: "Unknown error",
+      cause: e,
+      context: e.stack,
+    });
+  }
+}
+
+async function emailIsUnique(email: string): AsyncErr<boolean, any> {
+  try {
+    const users = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
+      .limit(1);
+    return ok(users.length <= 0);
+  } catch (unsafe) {
+    const e = getErr(unsafe);
+    return err({
+      type: "Unknown error",
+      cause: e,
+      context: e.stack,
+    });
+  }
+}
+
+export type GetUserByEmailErr = "User nonexistent";
+async function readByEmail(
   email: string,
-): AsyncErr<SelectUser, GetUserWithCredsErr> {
+): AsyncErr<SelectUser | null, GetUserByEmailErr> {
   try {
     const users = await db
       .select()
       .from(usersTable)
       .where((user) => eq(user.email, email));
     if (!users.length) {
-      return err({
-        type: "User nonexistent",
-      });
+      return ok(null);
     }
     return ok(users[0]);
   } catch (unsafe) {
@@ -75,7 +126,7 @@ async function setLoginAttempts(
   num: number,
 ): AsyncErr<boolean, SetLoginAtteptsErr> {
   try {
-    const d = new Date().toISOString();
+    const d = new Date();
     const res = await db
       .update(usersTable)
       .set({ lastLoginAttempt: d, loginAttempts: num })
@@ -102,6 +153,8 @@ async function setLoginAttempts(
 
 export const users = {
   setLoginAttempts,
-  getUserByEmail,
-  createUser,
+  readByEmail,
+  createOne,
+  emailIsUnique,
+  updatePasswordResetToken,
 };

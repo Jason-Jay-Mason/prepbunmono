@@ -1,16 +1,22 @@
-import { pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid, pgEnum } from "drizzle-orm/pg-core";
 import { usersTable } from "./users";
 import { AsyncErr } from "@/lib/error/types";
 import { db } from "../drizzle";
 import { err, ok } from "neverthrow";
 import { getErr } from "@/lib/error/utils";
 
-export const sessionsTable = pgTable("sessions", {
-  uid: uuid("uid")
+export const sessionTypeEnum = pgEnum("session_type", [
+  "passwordReset",
+  "user",
+]);
+
+export const sessionsTable = pgTable("user_sessions", {
+  uid: text("uid")
     .references(() => usersTable.id)
     .primaryKey(),
-  expires: text("expires").notNull(),
-  refreshToken: text("token").notNull().unique(),
+  expires: timestamp("expires").notNull(),
+  token: text("token").notNull().unique(),
+  type: sessionTypeEnum("type").notNull(),
 });
 
 export type SelectSession = typeof sessionsTable.$inferSelect;

@@ -1,13 +1,14 @@
-import React from "react";
 import "../(prepbun)/styles.css";
 import { VideoOverlay } from "@/lib/ui/VideoOverlat";
+import { Toaster } from "sonner";
 
 const Layout: React.FC<any> = async ({ children }) => {
   return (
     <html lang="en" className="">
       <body className="relative">
         <VideoOverlay />
-        <main className="z-10 min-h-[75dvh] bg-background">{children}</main>
+        <Toaster position="bottom-center" richColors />
+        {children}
       </body>
     </html>
   );

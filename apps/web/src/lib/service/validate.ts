@@ -56,6 +56,8 @@ function sanitizeJson<T extends object | string | number | boolean | null>(
   return sanitized as T;
 }
 
+export function rateLimitByIp() {}
+
 export const Validate = {
   isSameSite,
   sanitizeJson,
