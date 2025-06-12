@@ -3,14 +3,14 @@ import { env } from "@/config/env";
 import { ReCaptchaVerifyResponse } from "./types";
 import { safeFetch, SafeFetchErr } from "../utils/serverUtils";
 import { err, ok } from "neverthrow";
-import { AsyncErr } from "../error/types";
+import { AsyncResult } from "../error/types";
 
 const CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify";
 
 type VerifyTokenErr = "Recaptcha google server error" | SafeFetchErr;
 export async function verifyRecaptchaToken(
   token: string,
-): AsyncErr<ReCaptchaVerifyResponse, VerifyTokenErr> {
+): AsyncResult<ReCaptchaVerifyResponse, VerifyTokenErr> {
   const res = await safeFetch<ReCaptchaVerifyResponse>(CAPTCHA_URL, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },

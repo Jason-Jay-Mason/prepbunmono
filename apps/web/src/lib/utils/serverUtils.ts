@@ -1,4 +1,4 @@
-import { AsyncErr } from "../error/types";
+import { AsyncResult } from "../error/types";
 import { getErr } from "../error/utils";
 import { err, ok } from "neverthrow";
 
@@ -12,7 +12,7 @@ interface SafeFetchResponse<T> {
 export async function safeFetch<T>(
   input: RequestInfo | URL,
   init?: RequestInit,
-): AsyncErr<SafeFetchResponse<T>, SafeFetchErr> {
+): AsyncResult<SafeFetchResponse<T>, SafeFetchErr> {
   let res;
   try {
     res = await fetch(input, init);

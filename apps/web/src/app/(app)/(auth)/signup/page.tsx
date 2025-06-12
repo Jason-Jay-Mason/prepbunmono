@@ -1,7 +1,8 @@
-import { SignUpForm } from "@/lib/components/app/forms/login";
+import { SignUpForm } from "@/lib/components/app/forms/signup";
 import { MessagePage } from "@/lib/components/site/MessagePage";
 
 const Page: React.FC<any> = () => {
+  //TODO: if authed in, redirect to the authed page in middleware
   if (process.env.NODE_ENV === "production") {
     return (
       <MessagePage

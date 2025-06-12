@@ -1,51 +1,51 @@
-import { pgTable, text, timestamp, uuid, pgEnum } from "drizzle-orm/pg-core";
-import { usersTable } from "./users";
-import { AsyncErr } from "@/lib/error/types";
+import { pgTable, text, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { AsyncResult } from "@/lib/error/types";
 import { db } from "../drizzle";
 import { err, ok } from "neverthrow";
 import { getErr } from "@/lib/error/utils";
+import { usersTable } from "./users";
+
+export type SessionType = "passwordReset" | "student" | "tutor" | "admin";
 
 export const sessionTypeEnum = pgEnum("session_type", [
   "passwordReset",
-  "user",
+  "student",
+  "tutor",
+  "admin",
 ]);
 
 export const sessionsTable = pgTable("user_sessions", {
-  uid: text("uid")
-    .references(() => usersTable.id)
-    .primaryKey(),
+  token: text("token").notNull().unique().primaryKey(),
+  uid: text("uid").references(() => usersTable.id), //how do we do this?
   expires: timestamp("expires").notNull(),
-  token: text("token").notNull().unique(),
   type: sessionTypeEnum("type").notNull(),
 });
 
 export type SelectSession = typeof sessionsTable.$inferSelect;
 export type InsertSession = typeof sessionsTable.$inferInsert;
 
-export type CreateSessionErr = "No rows inserted";
-async function createSession(
-  s: InsertSession,
-): AsyncErr<boolean, CreateSessionErr> {
-  try {
-    const res = await db.insert(sessionsTable).values(s);
-    if (!res.rows.length)
+export namespace SessionModel {
+  export type CreateSessionErr = "No session inserted";
+  export async function createOne(
+    s: InsertSession,
+  ): AsyncResult<boolean, CreateSessionErr> {
+    try {
+      const res = await db.insert(sessionsTable).values(s).returning();
+      if (!res.length)
+        return err({
+          type: "No session inserted",
+          message: "There were no sessions inserted into the db",
+          context: { stack: new Error("").stack, dbRes: JSON.stringify(res) },
+        });
+      return ok(true);
+    } catch (unsafe) {
+      const e = getErr(unsafe);
       return err({
-        type: "No rows inserted",
-        message: "There were no rows inserted into the db",
-        context: { stack: new Error("").stack, dbRes: JSON.stringify(res) },
+        type: "Unknown error",
+        message: "Unown error creating session in db",
+        cause: e,
+        context: e.stack,
       });
-    return ok(true);
-  } catch (unsafe) {
-    const e = getErr(unsafe);
-    return err({
-      type: "Unknown error",
-      message: "Unown error creating session in db",
-      cause: e,
-      context: e.stack,
-    });
+    }
   }
 }
-
-export const sessions = {
-  createSession,
-};

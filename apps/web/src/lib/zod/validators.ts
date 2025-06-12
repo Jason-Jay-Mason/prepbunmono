@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const captchaRequestSchema = z
+  .string()
+  .min(1, { message: "reCAPTCHA verification is required" });
+
 export const loginFormSchema = z.object({
   username: z
     .string()
@@ -11,7 +15,6 @@ export const loginFormSchema = z.object({
     }),
   password: z.string(),
 });
-
 export type LoginFormFields = z.infer<typeof loginFormSchema>;
 
 export const signUpFormSchema = z
@@ -53,20 +56,21 @@ export const signUpFormSchema = z
             "Password must contain at least two types of characters (letters, numbers, or special characters)",
         },
       ),
-    passwordConfirmation: z.string(), //is there a way to make sure this is equal to password with zod?,
+    passwordConfirmation: z.string(),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "Passwords do not match",
     path: ["passwordConfirmation"],
   });
-
 export type SignUpFormFields = z.infer<typeof signUpFormSchema>;
 
 export const signupFormRequestSchema = z.object({
   form: signUpFormSchema,
-  recaptcha: z
-    .string()
-    .min(1, { message: "reCAPTCHA verification is required" }),
+  recaptcha: captchaRequestSchema,
 });
-
 export type SignupFormRequestFields = z.infer<typeof signupFormRequestSchema>;
+
+export const verifyAccountSchema = z.string().min(6).max(6);
+export const verifyAccountRequestSchema = z.object({
+  confirmationToken: verifyAccountSchema,
+});
