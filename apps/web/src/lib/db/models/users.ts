@@ -28,7 +28,10 @@ export const usersTable = pgTable("users", {
   updatedAt: timestamp("updated_at").notNull(),
 });
 
+
+
 export type SelectUser = typeof usersTable.$inferSelect;
+export type ClientUser = Pick<SelectUser, 'id' | 'email' >;
 export type InsertUser = typeof usersTable.$inferInsert;
 
 export namespace UserModel {
@@ -107,7 +110,7 @@ export namespace UserModel {
 
   export async function readByEmail(
     email: string,
-  ): AsyncResult<SelectUser | null, "User nonexistent"> {
+  ): AsyncResult<SelectUser, "User nonexistent"> {
     try {
       const users = await db
         .select()
@@ -115,7 +118,11 @@ export namespace UserModel {
         .where((user) => eq(user.email, email))
         .limit(1);
       if (!users.length) {
-        return ok(null);
+        return err({
+          type: "User nonexistent",
+          message: "User nonexistent",
+          context: new Error().stack,
+        });
       }
       return ok(users[0]);
     } catch (unsafe) {

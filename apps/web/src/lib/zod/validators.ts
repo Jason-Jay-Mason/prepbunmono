@@ -5,7 +5,7 @@ export const captchaRequestSchema = z
   .min(1, { message: "reCAPTCHA verification is required" });
 
 export const loginFormSchema = z.object({
-  username: z
+  email: z
     .string()
     .min(2, {
       message: "Username must be at least two charecters",

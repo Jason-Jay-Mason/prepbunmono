@@ -4,6 +4,7 @@ import { verifyRecaptchaToken } from "@/lib/recaptcha/server";
 import { Auth } from "@/lib/service/auth";
 import { Validate } from "@/lib/service/validate";
 import {
+  loginFormSchema,
   signupFormRequestSchema,
   verifyAccountRequestSchema,
 } from "@/lib/zod/validators";
@@ -11,14 +12,142 @@ import { zValidator } from "@hono/zod-validator";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import posthog from "posthog-js";
 import { Hono } from "hono";
-import { UserModel } from "../db/models/users";
+import { ClientUser, UserModel } from "../db/models/users";
 import { jwt } from "../jwt/jwt";
 import { env } from "@/config/env";
 import { PendingUserModel } from "../db/models/pendingUsers";
 import { cookieKeys } from "./types";
 import { nanoid } from "nanoid";
+import { sessionTypesArr } from "../db/models/sessions";
 
 export const authRoutes = new Hono()
+  .post(
+    "/signin",
+    zValidator("json", loginFormSchema, (res, c) => {
+      if (!res.success)
+        return c.json(
+          {
+            error: "Bad request",
+            message: "Malformed request",
+            data: null,
+          },
+          400,
+        );
+    }),
+    async (c) => {
+      const data = Validate.sanitizeJson(c.req.valid("json"));
+      const user = await UserModel.readByEmail(data.email);
+      if (user.isErr()) {
+        switch (user.error.type) {
+          case "User nonexistent":
+            return c.json(
+              {
+                error: "Invalid credentials",
+                message: "Username or password is incorrect",
+                data: null,
+              },
+              400,
+            );
+          default:
+            posthog.captureException(user.error);
+            return c.json(
+              {
+                error: "Internal server error",
+                message: "Please try again in a few hours.",
+                data: null,
+              },
+              500,
+            );
+        }
+      }
+      const passwordValid = await Auth.comparePassword(
+        data.password,
+        user.value.password,
+      );
+      if (passwordValid.isErr()) {
+        posthog.captureException(passwordValid.error);
+        return c.json(
+          {
+            error: "Internal server error",
+            message: "Please try again in a few hours.",
+            data: null,
+          },
+          500,
+        );
+      }
+      if (!passwordValid.value) {
+        return c.json(
+          {
+            error: "Invalid credentials",
+            message: "Username or password is incorrect",
+            data: null,
+          },
+          400,
+        );
+      }
+      const userAgent = Validate.sanitizeValue(c.req.header("User-Agent"));
+      const session = await Auth.createUserSession({
+        uid: user.value.id,
+        userAgent: userAgent,
+        withCreds: true,
+        sessionType: "student",
+      });
+      if (session.isErr()) {
+        switch (session.error.type) {
+          case "Invalid secret":
+          case "Invalid claims object":
+            console.error("No confirmationSession token found in cookies");
+            return c.json(
+              {
+                error: "Bad request",
+                message: "Malformed request, please stop trying to hack us.",
+                data: null,
+              },
+              400,
+            );
+          default:
+            posthog.captureException(session.error);
+            return c.json(
+              {
+                error: "Internal server error",
+                message: "Please try again in a few hours.",
+                data: null,
+              },
+              500,
+            );
+        }
+      }
+      setCookie(c, cookieKeys.accessToken, session.value.accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+        maxAge: siteConfig.auth.accessTtl / 1000,
+      });
+
+      setCookie(c, cookieKeys.refreshToken, session.value.refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+        maxAge: siteConfig.auth.refreshTtl / 1000,
+      });
+
+      const u: ClientUser = {
+        id: user.value.id,
+        email: user.value.email,
+      };
+
+      return c.json(
+        {
+          error: null,
+          message: "success",
+          data: u,
+        },
+        200,
+      );
+    },
+  )
   .get("/verify", async (c) => {
     const confirmationSessionToken = getCookie(
       c,
@@ -35,11 +164,14 @@ export const authRoutes = new Hono()
         400,
       );
     }
-    const claims = jwt.parse(confirmationSessionToken, env.JWT_SECRET);
+    const claims = jwt.parseWithSessionTypes(
+      confirmationSessionToken,
+      env.JWT_SECRET,
+      sessionTypesArr,
+    );
     if (claims.isErr()) {
       switch (claims.error.type) {
-        case "Invalid claims object":
-        case "Invalid JWT signature":
+        case "Invalid jwt":
           console.error("Invlaid claims object, or invalid jwt signature.");
           return c.json(
             {
@@ -131,11 +263,14 @@ export const authRoutes = new Hono()
           400,
         );
       }
-      const claims = jwt.parse(confirmationSessionToken, env.JWT_SECRET);
+      const claims = jwt.parseWithSessionTypes(
+        confirmationSessionToken,
+        env.JWT_SECRET,
+        sessionTypesArr,
+      );
       if (claims.isErr()) {
         switch (claims.error.type) {
-          case "Invalid claims object":
-          case "Invalid JWT signature":
+          case "Invalid jwt":
             console.error("Invlaid claims object, or invalid jwt signature");
             return c.json(
               {
@@ -248,14 +383,12 @@ export const authRoutes = new Hono()
         );
       }
 
-      const session = await Auth.createUserSession(
-        {
-          uid: user.value.id,
-          userAgent,
-          withCreds: true,
-        },
-        "student",
-      );
+      const session = await Auth.createUserSession({
+        uid: user.value.id,
+        userAgent,
+        withCreds: true,
+        sessionType: "student",
+      });
       if (session.isErr()) {
         switch (session.error.type) {
           case "Invalid secret":
@@ -397,6 +530,7 @@ export const authRoutes = new Hono()
           uid: currentUser.value.id,
           userAgent,
           withCreds: false,
+          sessionType: "passwordReset",
         });
         if (sessionToken.isErr()) {
           console.error(sessionToken.error);

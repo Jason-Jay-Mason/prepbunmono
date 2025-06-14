@@ -12,6 +12,10 @@ export type ServerErr<T extends string> = {
 export type AsyncResult<T, S extends string> = Promise<
   Result<T, ServerErr<S | "Unknown error">>
 >;
+export type SyncResult<T, S extends string> = Result<
+  T,
+  ServerErr<S | "Unknown error">
+>;
 
 export type InferAsyncErr<T> = T extends (
   ...args: any[]
@@ -24,3 +28,14 @@ export type InferAsyncErr<T> = T extends (
       ? ErrorType
       : never
     : never;
+
+export class ClientError extends Error {
+  constructor(message: string, options?: { description?: string }) {
+    super(message);
+    this.name = "ClientError";
+    if (options?.description) {
+      this.description = options.description;
+    }
+  }
+  description?: string;
+}

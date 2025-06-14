@@ -18,7 +18,7 @@ export const env = createEnv({
     NEXT_PUBLIC_RECAPTCHA_SITE_KEY: z.string().min(1),
   },
   runtimeEnv: {
-    JWT_SECRET: process.env.JWT_SECRET,
+    JWT_SECRET: process.env.JWT_STUDENT_SECRET,
     PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
     PAYLOAD_DATABASE_URI: process.env.PAYLOAD_DATABASE_URI,
     NEXT_PUBLIC_CLIENT_URL: process.env.NEXT_PUBLIC_CLIENT_URL,

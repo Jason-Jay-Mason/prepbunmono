@@ -3,7 +3,7 @@ import { Result, ok, err } from "neverthrow";
 import { getErr } from "../error/utils";
 import { Secret, Claims, Token } from "./types";
 import { generateClaimsSchema, praseClaimsSchema } from "./validators";
-import { ServerErr } from "../error/types";
+import { ServerErr, SyncResult } from "../error/types";
 
 export type GenerateClaimsError = "Invalid secret" | "Invalid claims object";
 function generate(
@@ -27,7 +27,7 @@ function generate(
       context: res.error.stack,
     });
   }
-  return ok(j.sign(c, s));
+  return ok(j.sign(c, s + c.sessionType));
 }
 
 export type ParseJwtError =
@@ -35,7 +35,7 @@ export type ParseJwtError =
   | "Invalid JWT signature"
   | "JWT malformed"
   | "Invalid claims object";
-function parse(t: Token, s: Secret): Result<Claims, ServerErr<ParseJwtError>> {
+function verify(t: Token, s: Secret): Result<Claims, ServerErr<ParseJwtError>> {
   try {
     const claims = j.verify(t, s);
     const res = praseClaimsSchema.safeParse(claims);
@@ -77,7 +77,22 @@ function parse(t: Token, s: Secret): Result<Claims, ServerErr<ParseJwtError>> {
   }
 }
 
+export function parseWithSessionTypes(
+  t: Token,
+  secret: string,
+  types: string[],
+): SyncResult<Claims, "Invalid jwt"> {
+  for (const type of types) {
+    const res = verify(t, secret + type);
+    if (res.isOk()) return ok(res.value);
+  }
+  return err({
+    type: "Invalid jwt",
+    stack: new Error().stack,
+  });
+}
 export const jwt = {
-  parse,
+  parseWithSessionTypes,
+  verify,
   generate,
 };

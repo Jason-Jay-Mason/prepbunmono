@@ -1,3 +1,4 @@
+import "server-only";
 import { err, ok } from "neverthrow";
 import { AsyncResult, InferAsyncErr } from "../error/types";
 import { siteConfig } from "@/config/site";
@@ -13,6 +14,9 @@ import { nanoid } from "nanoid";
 import { UserModel } from "../db/models/users";
 import { SessionModel, SessionType } from "../db/models/sessions";
 import { InsertPendingUser, PendingUserModel } from "../db/models/pendingUsers";
+import { getErr } from "../error/utils";
+import { cookies, headers } from "next/headers";
+import { cookieKeys } from "../api/types";
 const resend = new Resend(env.RESEND);
 
 type UserSession = {
@@ -21,11 +25,91 @@ type UserSession = {
   ttl: Date;
 };
 
+type AuthStatus = {
+  authed: boolean;
+  type: string;
+  uid: string;
+  withCreds: string;
+};
+
+//TODO: check to make sure encoding the session type into the jwt secret is a good idea
+//TODO: create the middleware for authentication on layouts
 export namespace Auth {
   ///
+  // export namespace next {
+  //   async function _getAuth(): AsyncResult<AuthStatus | null, never> {
+  //     const c = await cookies();
+  //     const h = await headers();
+  //     const accessToken = c.get(cookieKeys.accessToken)?.value;
+  //     const refreshToken = c.get(cookieKeys.refreshToken)?.value;
+  //     h.get("User-Agent");
+  //     if (!refreshToken) {
+  //       c.delete(cookieKeys.accessToken);
+  //       c.delete(cookieKeys.refreshToken);
+  //       return ok(null);
+  //     }
+  //     if (accessToken) {
+  //       const accessClaims = jwt.parse(accessToken, env.JWT_SECRET);
+  //       if (accessClaims.isErr()) {
+  //         c.delete(cookieKeys.accessToken);
+  //         c.delete(cookieKeys.refreshToken);
+  //         return ok(null);
+  //       }
+  //     }
+  //   }
+  // }
+
   export function createConfirmationToken(): string {
     let token = crypto.randomUUID().toUpperCase().slice(0, 6);
     return token;
+  }
+
+  export async function comparePassword(
+    pw: string,
+    encryptedPw: string,
+  ): AsyncResult<boolean, never> {
+    try {
+      const pwOk = await bcrypt.compare(pw, encryptedPw);
+      if (!pwOk) {
+        return ok(false);
+      }
+      return ok(true);
+    } catch (unsafe) {
+      const e = getErr(unsafe);
+      return err({
+        type: "Unknown error",
+        cause: e,
+        stack: e.stack,
+      });
+    }
+  }
+
+  export async function getSessionWithRefresh(
+    refreshToken: string,
+    paresedClaims: Claims,
+  ): AsyncResult<
+    UserSession,
+    | InferAsyncErr<typeof SessionModel.getSessionByRefresh>
+    | InferAsyncErr<typeof jwt.generate>
+  > {
+    const session = await SessionModel.getSessionByRefresh(refreshToken);
+    if (session.isErr()) {
+      return err(session.error);
+    }
+    const accessToken = jwt.generate(env.JWT_SECRET, {
+      uid: paresedClaims.uid,
+      userAgent: paresedClaims.userAgent,
+      withCreds: false,
+      sessionType: session.value.type,
+    });
+    if (accessToken.isErr()) {
+      return err(accessToken.error);
+    }
+    return ok({
+      accessToken: accessToken.value,
+      refreshToken,
+      ttl: new Date(Date.now() + siteConfig.auth.accessTtl),
+    });
   }
 
   export async function resetConfirmationToken(
@@ -42,6 +126,7 @@ export namespace Auth {
       uid,
       userAgent: userAgent,
       withCreds: false,
+      sessionType: "confirmation",
     });
     if (sessionToken.isErr()) {
       return err(sessionToken.error);
@@ -60,7 +145,6 @@ export namespace Auth {
 
   export async function createUserSession(
     c: Claims,
-    t: SessionType,
   ): AsyncResult<
     UserSession,
     | InferAsyncErr<typeof jwt.generate>
@@ -74,7 +158,7 @@ export namespace Auth {
     const sessionRes = await SessionModel.createOne({
       uid: c.uid,
       token: refreshToken.value,
-      type: t,
+      type: c.sessionType,
       expires: new Date(Date.now() + siteConfig.auth.refreshTtl),
     });
 
@@ -208,6 +292,7 @@ export namespace Auth {
         uid: existingPendingUser.value.id,
         userAgent,
         withCreds: true,
+        sessionType: "confirmation",
       });
       if (sessionToken.isErr()) {
         return err(sessionToken.error);
@@ -233,6 +318,7 @@ export namespace Auth {
       uid,
       withCreds: true,
       userAgent,
+      sessionType: "confirmation",
     });
     if (sessionToken.isErr()) {
       return err(sessionToken.error);
