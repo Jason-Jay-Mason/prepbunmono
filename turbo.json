@@ -22,7 +22,7 @@
         "NEXT_PUBLIC_GOOGLE_MAPS",
         "BLOB_READ_WRITE_TOKEN",
         "POSTGRES_URI",
-        "JWT_SECRET",
+        "JWT_STUDENT_SECRET",
         "RESEND",
         "NEXT_PUBLIC_RECAPTCHA_SITE_KEY",
         "RECAPTCHA_SECRET_KEY"
