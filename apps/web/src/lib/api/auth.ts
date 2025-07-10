@@ -35,7 +35,7 @@ export const authRoutes = new Hono()
         400,
       );
     }
-    const claims = jwt.parse(confirmationSessionToken, env.JWT_SECRET);
+    const claims = jwt.parse(confirmationSessionToken, env.JWT_STUDENT_SECRET);
     if (claims.isErr()) {
       switch (claims.error.type) {
         case "Invalid claims object":
@@ -131,7 +131,10 @@ export const authRoutes = new Hono()
           400,
         );
       }
-      const claims = jwt.parse(confirmationSessionToken, env.JWT_SECRET);
+      const claims = jwt.parse(
+        confirmationSessionToken,
+        env.JWT_STUDENT_SECRET,
+      );
       if (claims.isErr()) {
         switch (claims.error.type) {
           case "Invalid claims object":

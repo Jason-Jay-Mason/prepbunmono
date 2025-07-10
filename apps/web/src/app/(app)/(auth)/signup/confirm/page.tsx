@@ -32,7 +32,7 @@ const Page: React.FC<PageProps> = async () => {
     return <ErrorPage />;
   }
 
-  const claims = jwt.parse(session.value, env.JWT_SECRET);
+  const claims = jwt.parse(session.value, env.JWT_STUDENT_SECRET);
   if (claims.isErr()) {
     switch (claims.error.type) {
       case "Invalid JWT signature":

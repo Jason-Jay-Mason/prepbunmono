@@ -5,7 +5,7 @@ export const env = createEnv({
   server: {
     PAYLOAD_SECRET: z.string().min(1),
     PAYLOAD_DATABASE_URI: z.string().min(1),
-    JWT_SECRET: z.string().min(1),
+    JWT_STUDENT_SECRET: z.string().min(1),
     POSTGRES_URI: z.string().min(1),
     RESEND: z.string().min(1),
     RECAPTCHA_SECRET_KEY: z.string().min(1),
@@ -18,7 +18,7 @@ export const env = createEnv({
     NEXT_PUBLIC_RECAPTCHA_SITE_KEY: z.string().min(1),
   },
   runtimeEnv: {
-    JWT_SECRET: process.env.JWT_SECRET,
+    JWT_STUDENT_SECRET: process.env.JWT_STUDENT_SECRET,
     PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
     PAYLOAD_DATABASE_URI: process.env.PAYLOAD_DATABASE_URI,
     NEXT_PUBLIC_CLIENT_URL: process.env.NEXT_PUBLIC_CLIENT_URL,

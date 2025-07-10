@@ -38,7 +38,7 @@ export namespace Auth {
         typeof PendingUserModel.updateConfirmationAndSessionTokenByUid
       >
   > {
-    const sessionToken = jwt.generate(env.JWT_SECRET, {
+    const sessionToken = jwt.generate(env.JWT_STUDENT_SECRET, {
       uid,
       userAgent: userAgent,
       withCreds: false,
@@ -66,7 +66,7 @@ export namespace Auth {
     | InferAsyncErr<typeof jwt.generate>
     | InferAsyncErr<typeof SessionModel.createOne>
   > {
-    const refreshToken = jwt.generate(env.JWT_SECRET, c);
+    const refreshToken = jwt.generate(env.JWT_STUDENT_SECRET, c);
     if (refreshToken.isErr()) {
       return err(refreshToken.error);
     }
@@ -82,7 +82,7 @@ export namespace Auth {
       return err(sessionRes.error);
     }
 
-    const accessToken = jwt.generate(env.JWT_SECRET, c);
+    const accessToken = jwt.generate(env.JWT_STUDENT_SECRET, c);
     if (accessToken.isErr()) {
       return err(accessToken.error);
     }
@@ -138,7 +138,7 @@ export namespace Auth {
     | InferAsyncErr<typeof jwt.generate>
     | InferAsyncErr<typeof SessionModel.createOne>
   > {
-    const token = jwt.generate(env.JWT_SECRET, c);
+    const token = jwt.generate(env.JWT_STUDENT_SECRET, c);
     if (token.isErr()) {
       return err(token.error);
     }
@@ -204,7 +204,7 @@ export namespace Auth {
       return err(existingPendingUser.error);
     }
     if (existingPendingUser.value) {
-      let sessionToken = jwt.generate(env.JWT_SECRET, {
+      let sessionToken = jwt.generate(env.JWT_STUDENT_SECRET, {
         uid: existingPendingUser.value.id,
         userAgent,
         withCreds: true,
@@ -229,7 +229,7 @@ export namespace Auth {
 
     //Create pending user
     const uid = nanoid(8);
-    let sessionToken = jwt.generate(env.JWT_SECRET, {
+    let sessionToken = jwt.generate(env.JWT_STUDENT_SECRET, {
       uid,
       withCreds: true,
       userAgent,
