@@ -48,7 +48,7 @@ export const ContactFormSection: React.FC<ContactFormBlock> = (p) => {
             <Link href="https://meetings-na2.hubspot.com/thao-bui">
               <Button size="lg" className="w-fit">
                 <CalendarPlus></CalendarPlus>
-                Schedule Free Session
+                Schedule Intro Call 
               </Button>
             </Link>
           </div>

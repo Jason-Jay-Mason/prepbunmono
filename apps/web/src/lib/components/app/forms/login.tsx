@@ -69,7 +69,7 @@ export const LoginForm: React.FC<any> = (p) => {
               href="https://meetings-na2.hubspot.com/thao-bui"
               className="underline"
             >
-              Schedule your free session.
+              Schedule your intro call.
             </Link>
           </p>
         </form>

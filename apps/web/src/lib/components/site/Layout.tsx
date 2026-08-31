@@ -118,7 +118,7 @@ export const SiteLayout: React.FC<{
                 )}
               >
                 <CalendarPlus></CalendarPlus>
-                Free Session
+                Book Intro Call
               </Button>
             </Link>
             <Link href="/login" id="primary-cta-nav">
