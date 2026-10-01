@@ -13,6 +13,7 @@ import {
   NavigationBarModalControl,
   navAbsoluteAtom,
   navStickyAtom,
+  navTransition,
   NavigationBarModelLink,
 } from "@/lib/ui/NavigationBar";
 import { Button } from "@/lib/ui/shadcn/button";
@@ -35,14 +36,7 @@ import {
   Accordion,
   AccordionContent,
 } from "@/lib/ui/shadcn/accordion";
-import {
-  CalendarPlus,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Twitter,
-  Youtube,
-} from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 
 const linkstyles =
   "text-md px-4 py-5 md:text-base 2xl:text-md bg-transparent focus:bg-card hover:bg-muted group-hover/nav:text-foreground";
@@ -111,20 +105,21 @@ export const SiteLayout: React.FC<{
               <Button
                 size="sm"
                 className={cn(
+                  navTransition,
                   absolute
                     ? "border-background text-foreground bg-background group-hover/nav:text-background group-hover/nav:bg-foreground"
                     : "group-hover/nav:text-foreground",
                   sticky && "bg-foreground text-background",
                 )}
               >
-                <CalendarPlus></CalendarPlus>
-                Book Intro Call
+                Apply
               </Button>
             </Link>
             <Link href="/login" id="primary-cta-nav">
               <Button
                 size="sm"
                 className={cn(
+                  navTransition,
                   absolute
                     ? "border-background text-foreground bg-background group-hover/nav:text-background group-hover/nav:bg-foreground"
                     : "group-hover/nav:text-foreground",
@@ -236,10 +231,12 @@ const NavigationBarModelAccordian: React.FC<{
 const NavigationBarImageMenu: React.FC<SiteNavImageMenuBlock> = (p) => {
   return (
     <NavigationMenuItem className="relative">
-      <NavigationMenuTrigger className={linkstyles}>
+      <NavigationMenuTrigger
+        className={cn(linkstyles, navTransition, "[&_svg]:ease-out")}
+      >
         {p.label}
       </NavigationMenuTrigger>
-      <NavigationMenuContent className="bottom-0 border border-border rounded-sm translate-y-[calc(100%+9px)] bg-background absolute">
+      <NavigationMenuContent className="bottom-0 border border-border rounded-sm translate-y-[calc(100%+9px)] bg-background absolute duration-300 ease-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-top-2 data-[state=closed]:slide-out-to-top-2 motion-reduce:animate-none">
         <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[600px] lg:grid-cols-[.75fr_1fr]">
           <li className="row-span-3">
             <NavigationMenuLink asChild>
@@ -295,7 +292,8 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            navTransition,
             className,
           )}
           {...props}
