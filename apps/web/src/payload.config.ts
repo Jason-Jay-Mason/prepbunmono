@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import sharp from "sharp";
 
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { mcpPlugin } from "@payloadcms/plugin-mcp";
 import { env } from "./config/env";
 import { Users } from "./lib/payload/collections/Users";
 import { Pages } from "./lib/payload/collections/Pages";
@@ -47,6 +48,28 @@ export default buildConfig({
       token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
     payloadCloudPlugin(),
+    mcpPlugin({
+      collections: {
+        pages: {
+          description: "Marketing page content, composed of blocks",
+          enabled: {
+            find: true,
+            update: true,
+            create: false,
+            delete: false,
+          },
+        },
+        media: {
+          enabled: { find: true, create: false, update: false, delete: false },
+        },
+      },
+      globals: {
+        sitenav: {
+          description: "Site navigation content",
+          enabled: { find: true, update: true },
+        },
+      },
+    }),
     // storage-adapter-placeholder
   ],
 });

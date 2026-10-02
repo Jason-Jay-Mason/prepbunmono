@@ -1,6 +1,15 @@
 import { withPayload } from "@payloadcms/next/withPayload";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/prep-bootcamps",
+        destination: "/sat-prep",
+        statusCode: 301,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
