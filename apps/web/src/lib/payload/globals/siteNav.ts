@@ -77,7 +77,6 @@ export const SiteNav: GlobalConfig = {
   label: "Site Nav",
   access: {
     update: loggedIn,
-    readDrafts: loggedIn,
   },
   fields: [
     {
